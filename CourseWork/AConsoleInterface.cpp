@@ -45,7 +45,8 @@ void AConsoleInterface::StartPage()
 		cslTools.Clear();
 		std::cout << "Открытие существующей БД" << std::endl 
 			<< "Введите путь и название файла в формате:" << std::endl 
-			<< "<название диска>:\\<название папки>\\<название файла.txt>" << std::endl;
+			<< "<название диска>:\\<название папки>\\<название файла.txt>" << std::endl
+			<< "C:\\Projects_C++\\Files\\new.txt" << std::endl;
 		std::cout << ">>> ";
 		std::cin >> PathToFile;
 		db.Open(PathToFile);
@@ -181,8 +182,13 @@ void AConsoleInterface::ShowRecords()
 {
 	std::cout << "______________________________________________________________________База данных_________________________________________________________________________" << std::endl;
 	std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
-	for (int i = 0; i < db.DataList.Count(); i++) {// поменять на список
-		Data data = db.DataList.GetElement(i);
+	if (db.DataList.Count() == 0) {
+		std::cout << "| " << std::left << std::setw(150) << "Записи отсутствуют" << " |" << std::endl;
+		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+	}
+	
+	for (int i = 0; i < db.DataList.Count(); i++) {
+		Data data = db.DataList[i];
 		std::cout << "| " << i + 1 << " | " << std::left << std::setw(15) << data.GetSurname() << " | "
 			<< std::left << std::setw(15) << data.GetName() << " | "
 			<< std::left << std::setw(15) << data.GetPatrinymic() << " | "
@@ -580,7 +586,7 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetNumberRecordBook(Input);
 
-	//db.AddRecord();
+	db.AddRecord(tempData);
 
 	cslTools.Clear();
 	std::cout << "____________________________Добавление записи___________________________" << std::endl;
@@ -610,6 +616,7 @@ void AConsoleInterface::AddRecordPage()
 	std::cout << "------------------------------------------------------------------------" << std::endl;
 	Sleep(500);
 
+	db.SaveFile();
 	EditModePage();
 }
 
@@ -684,6 +691,8 @@ void AConsoleInterface::DeleteRecordPage()
 	std::cout << "|" << std::left << std::setw(62) << "Запись успешно удалена. Возврат на страницу редактирования >>>>>>>>>" << "|" << std::endl;
 	std::cout << "------------------------------------------------------------------------" << std::endl;
 	Sleep(500);
+
+	
 }
 
 
