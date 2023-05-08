@@ -281,6 +281,14 @@ public:
 		count--;
 	};
 
+
+	void UpdateData(T _data, int index)
+	{
+		//Del(index);
+		Insert(_data, index);
+		Del(index + 1);
+	};
+
 	// Очистка списка
 	void Clear()
 	{

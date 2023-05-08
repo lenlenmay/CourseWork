@@ -1,20 +1,23 @@
 #pragma once
-#pragma comment(lib, "crypt32.lib")
-#include <windows.h>
-#include <Wincrypt.h>
-  
-#define ENCRYPT_ALGORITHM (CALG_RC4)
-#define KEY_LENGTH 512
+#include <iostream> 
+#include <windows.h> 
+#include <wincrypt.h> 
+#include <stdio.h> 
 
 class ACryptoTools {
 private:
-	HCRYPTPROV hCryptProv {};
-	HCRYPTKEY hKey {};
-	HCRYPTHASH hHash {};
-	CHAR szPassword[KEY_LENGTH] {};
-	DWORD dwLength {};
+	DWORD dwIndex = 0;
+	DWORD dwType;
+	DWORD cbName;
+	LPTSTR pszName, x;
+	HCRYPTPROV hProv;
+	HCRYPTKEY hSessionKey;
 
 public:
 	ACryptoTools();
+	
+	std::string EncryptionOfString(const std::string &str);
+	std::string DecryptionOfString(const std::string& str);
+
 	~ACryptoTools();
 };

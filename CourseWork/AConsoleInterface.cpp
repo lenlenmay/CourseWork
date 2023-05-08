@@ -16,12 +16,22 @@ void AConsoleInterface::Init()
 
 void AConsoleInterface::StartPage()
 {
+
+	db.DataList.Clear();
+
 	cslTools.Clear();
 	std::cout << "________Начальная страница________" << std::endl;
 	std::cout << "|" << std::left << std::setw(32) << "(1) Открыть существующую БД" << "|" << std::endl;
 	std::cout << "----------------------------------" << std::endl;
 	std::cout << "|" << std::left << std::setw(32) << "(2) Создать новую БД" << "|" << std::endl;
 	std::cout << "----------------------------------" << std::endl;
+
+	/*std::string str{"ABOBAOFOF"};
+	std::cout << str << std::endl;
+	str = cryptoTools.EncryptionOfString(str);
+	std::cout << str << std::endl;
+	str = cryptoTools.DecryptionOfString(str);
+	std::cout << str << std::endl;*/
 
 	std::string PathToFile{};
 
@@ -43,10 +53,13 @@ void AConsoleInterface::StartPage()
 	switch (std::atoi(action.c_str())) {
 	case 1:
 		cslTools.Clear();
-		std::cout << "Открытие существующей БД" << std::endl 
-			<< "Введите путь и название файла в формате:" << std::endl 
-			<< "<название диска>:\\<название папки>\\<название файла.txt>" << std::endl
-			<< "C:\\Projects_C++\\Files\\new.txt" << std::endl;
+		std::cout << "_________________Открытие существующей БД_________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(56) << "Введите путь и название файла в формате:" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(56) << "<название диска>:\\<название папки>\\<название файла.txt>" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(56) << "C:\\Projects_C++\\Files\\new.txt" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------" << std::endl;
 		std::cout << ">>> ";
 		std::cin >> PathToFile;
 		db.Open(PathToFile);
@@ -54,9 +67,13 @@ void AConsoleInterface::StartPage()
 
 	case 2:
 		cslTools.Clear();
-		std::cout << "Создание новой БД" << std::endl
-			<< "Введите путь и название файла в формате:" << std::endl
-			<< "<название диска>:\\<название папки>\\<название файла.txt>" << std::endl;
+		std::cout << "____________________Создание новой БД_____________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(56) << "Введите путь и название файла в формате:" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(56) << "<название диска>:\\<название папки>\\<название файла.txt>" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(56) << "C:\\Projects_C++\\Files\\new.txt" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------" << std::endl;
 		std::cout << ">>> ";
 		std::cin >> PathToFile;
 		db.Create(PathToFile);
@@ -178,29 +195,100 @@ void AConsoleInterface::ViewPage()
 
 }
 
+void AConsoleInterface::ShowRecord(int index)
+{
+	std::cout << "________________________________________________________________________________База данных_______________________________________________________________________________________" << std::endl;
+	std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+	if (db.DataList.Count() == 0) {
+		std::cout << "| " << std::left << std::setw(175) << "Записи отсутствуют" << " |" << std::endl;
+		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+	}
+	else {
+		std::cout << "| " << "№" << " | " << std::left << std::setw(15) << "Фамилия" << " | "
+			<< std::left << std::setw(15) << "Имя" << " | "
+			<< std::left << std::setw(15) << "Отчество" << " | "
+			<< std::left << std::setw(7) << "Пол" << " | "
+			<< std::left << std::setw(13) << "Дата рождения" << " | "
+			<< std::left << std::setw(15) << "Год поступления" << " | "
+			<< std::left << std::setw(15) << "Факультет" << " | "
+			<< std::left << std::setw(25) << "Кафедра" << " | "
+			<< std::left << std::setw(6) << "Номер" << " | "
+			<< std::left << std::setw(17) << "Номер" << " |" << std::endl;
+		std::cout << "| " << " " << " | " << std::left << std::setw(15) << " " << " | "
+			<< std::left << std::setw(15) << " " << " | "
+			<< std::left << std::setw(15) << " " << " | "
+			<< std::left << std::setw(7) << " " << " | "
+			<< std::left << std::setw(13) << " " << " | "
+			<< std::left << std::setw(15) << "в университет" << " | "
+			<< std::left << std::setw(15) << "(институт)" << " | "
+			<< std::left << std::setw(25) << " " << " | "
+			<< std::left << std::setw(6) << "группы" << " | "
+			<< std::left << std::setw(17) << "в зачётной книжке" << " |" << std::endl;
+		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+
+			Data data = db.DataList[index - 1];
+			std::cout << "| " << index << " | " << std::left << std::setw(15) << data.GetSurname() << " | "
+				<< std::left << std::setw(15) << data.GetName() << " | "
+				<< std::left << std::setw(15) << data.GetPatrinymic() << " | "
+				<< std::left << std::setw(7) << data.GetGender() << " | "
+				<< std::left << std::setw(13) << data.GetDay() + "." + data.GetMonth() + "." + data.GetYear() << " | "
+				<< std::left << std::setw(15) << data.GetYearAddtoUniversity() << " | "
+				<< std::left << std::setw(15) << data.GetFaculty() << " | "
+				<< std::left << std::setw(25) << data.GetDepartment() << " | "
+				<< std::left << std::setw(6) << data.GetGroup() << " | "
+				<< std::left << std::setw(17) << data.GetNumberRecordBook() << " |" << std::endl;
+			std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+	}
+}
+
 void AConsoleInterface::ShowRecords()
 {
-	std::cout << "______________________________________________________________________База данных_________________________________________________________________________" << std::endl;
-	std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+	std::cout << "________________________________________________________________________________База данных_______________________________________________________________________________________" << std::endl;
+	std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 	if (db.DataList.Count() == 0) {
-		std::cout << "| " << std::left << std::setw(150) << "Записи отсутствуют" << " |" << std::endl;
-		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		std::cout << "| " << std::left << std::setw(175) << "Записи отсутствуют" << " |" << std::endl;
+		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+	}
+	else {
+		std::cout << "| " << "№" << " | " << std::left << std::setw(15) << "Фамилия" << " | "
+			<< std::left << std::setw(15) << "Имя" << " | "
+			<< std::left << std::setw(15) << "Отчество" << " | "
+			<< std::left << std::setw(7) << "Пол" << " | "
+			<< std::left << std::setw(13) << "Дата рождения" << " | "
+			<< std::left << std::setw(15) << "Год поступления" << " | "
+			<< std::left << std::setw(15) << "Факультет" << " | "
+			<< std::left << std::setw(25) << "Кафедра" << " | "
+			<< std::left << std::setw(6) << "Номер" << " | "
+			<< std::left << std::setw(17) << "Номер" << " |" << std::endl;
+		std::cout << "| " << " " << " | " << std::left << std::setw(15) << " " << " | "
+			<< std::left << std::setw(15) << " " << " | "
+			<< std::left << std::setw(15) << " " << " | "
+			<< std::left << std::setw(7) << " " << " | "
+			<< std::left << std::setw(13) << " " << " | "
+			<< std::left << std::setw(15) << "в университет" << " | "
+			<< std::left << std::setw(15) << "(институт)" << " | "
+			<< std::left << std::setw(25) << " " << " | "
+			<< std::left << std::setw(6) << "группы" << " | "
+			<< std::left << std::setw(17) << "в зачётной книжке" << " |" << std::endl;
+		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+
+		for (int i = 0; i < db.DataList.Count(); i++) {
+			Data data = db.DataList[i];
+			std::cout << "| " << i + 1 << " | " << std::left << std::setw(15) << data.GetSurname() << " | "
+				<< std::left << std::setw(15) << data.GetName() << " | "
+				<< std::left << std::setw(15) << data.GetPatrinymic() << " | "
+				<< std::left << std::setw(7) << data.GetGender() << " | "
+				<< std::left << std::setw(13) << data.GetDay() + "." + data.GetMonth() + "." + data.GetYear() << " | "
+				<< std::left << std::setw(15) << data.GetYearAddtoUniversity() << " | "
+				<< std::left << std::setw(15) << data.GetFaculty() << " | "
+				<< std::left << std::setw(25) << data.GetDepartment() << " | "
+				<< std::left << std::setw(6) << data.GetGroup() << " | "
+				<< std::left << std::setw(17) << data.GetNumberRecordBook() << " |" << std::endl;
+			std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		}
 	}
 	
-	for (int i = 0; i < db.DataList.Count(); i++) {
-		Data data = db.DataList[i];
-		std::cout << "| " << i + 1 << " | " << std::left << std::setw(15) << data.GetSurname() << " | "
-			<< std::left << std::setw(15) << data.GetName() << " | "
-			<< std::left << std::setw(15) << data.GetPatrinymic() << " | "
-			<< std::left << std::setw(10) << data.GetGender() << " | "
-			<< std::left << std::setw(10) << data.GetDay() + "." + data.GetMonth() + "." + data.GetYear() << " | "
-			<< std::left << std::setw(4) << data.GetYearAddtoUniversity() << " | "
-			<< std::left << std::setw(15) << data.GetFaculty() << " | "
-			<< std::left << std::setw(25) << data.GetDepartment() << " | "
-			<< std::left << std::setw(5) << data.GetGroup() << " | "
-			<< std::left << std::setw(5) << data.GetNumberRecordBook() << " |" << std::endl;
-		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
-	}
+	
 }
 
 
@@ -307,11 +395,10 @@ void AConsoleInterface::EditModePage()
 
 void AConsoleInterface::AddRecordPage()
 {
-	cslTools.Clear();
-
 	std::string Input{};
 	Data tempData;
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -322,10 +409,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите фамилию >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isNSPatrinymic(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
@@ -333,8 +416,8 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetSurname(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -345,10 +428,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите имя >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isNSPatrinymic(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
@@ -356,8 +435,8 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetName(Input);
 	
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -368,10 +447,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите отчество >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isNSPatrinymic(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
@@ -379,8 +454,8 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetPatrinymic(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -391,10 +466,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите пол >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isGender(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
@@ -402,8 +473,8 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetGender(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -414,19 +485,21 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите число >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isDayMonth(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
-	} while (!valIn.isDayMonth(Input));
+
+		if (Input.size() == 1)
+		{
+			Input = '0' + Input;
+		}
+
+	} while (!valIn.isDay(Input));
 
 	tempData.SetDay(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -437,19 +510,21 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите месяц (номер) >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isDayMonth(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
-	} while (!valIn.isDayMonth(Input));
+
+		if (Input.size() == 1)
+		{
+			Input = '0' + Input;
+		}
+
+	} while (!valIn.isMonth(Input));
 
 	tempData.SetMonth(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -460,10 +535,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите год >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isYAndYUniversity(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
@@ -471,8 +542,8 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetYear(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -483,10 +554,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите год поступления в институт >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isYAndYUniversity(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
@@ -494,8 +561,8 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetYearAddtoUniversity(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -506,10 +573,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите факультет (институт) >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isFDepartment(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
@@ -517,8 +580,8 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetFaculty(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -529,10 +592,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите кафедру >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isFDepartment(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
@@ -540,8 +599,8 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetDepartment(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -552,10 +611,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "Введите номер группы >>> ";
 		std::cin >> Input;
 
-		if (!valIn.isGroup(Input)) {
-			cslTools.Clear();
-		}
-
 		if (Input == "-back") {
 			EditModePage();
 		}
@@ -563,8 +618,8 @@ void AConsoleInterface::AddRecordPage()
 
 	tempData.SetGroup(Input);
 
-	cslTools.Clear();
 	do {
+		cslTools.Clear();
 		ShowRecords();
 		std::cout << "_______________________Добавление записи________________________" << std::endl;
 		std::cout << "----------------------------------------------------------------" << std::endl;
@@ -574,10 +629,6 @@ void AConsoleInterface::AddRecordPage()
 		std::cout << "----------------------------------------------------------------" << std::endl;
 		std::cout << "Введите номер зачётной книжки >>> ";
 		std::cin >> Input;
-
-		if (!valIn.isNumberRecordBook(Input)) {
-			cslTools.Clear();
-		}
 
 		if (Input == "-back") {
 			EditModePage();
@@ -622,77 +673,599 @@ void AConsoleInterface::AddRecordPage()
 
 void AConsoleInterface::ChangedRecordPage()
 {
-	cslTools.Clear();
-	ShowRecords();
+	std::string Input{};
 
-	std::cout << "_________Изменение записи_________" << std::endl;
-	std::cout << "|" << std::left << std::setw(36) << "(1) Выберете номер записи" << "|" << std::endl;
-	std::cout << "--------------------------------------" << std::endl;
-	std::cout << "|" << std::left << std::setw(36) << "(-back) Назад" << "|" << std::endl;
-	std::cout << "--------------------------------------" << std::endl;
+	do {
+		cslTools.Clear();
+		ShowRecords();
+
+		std::cout << "____________Изменение записи__________" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "Выберете номер записи" << "|" << std::endl;
+		std::cout << "--------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "--------------------------------------" << std::endl;
+		std::cout << "Введите номер записи >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			EditModePage();
+		}
+
+	} while (!(valIn.isNumberOfRecord(Input, db.DataList.Count())));
+
+	ChoiceChangedElement(std::atoi(Input.c_str()));
+}
+
+void AConsoleInterface::ChoiceChangedElement(int index)
+{
+	cslTools.Clear();
+	ShowRecord(index);
+
+	std::cout << "_______________Изменение записи_______________" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(1) Изменить Ф.И.О" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(2) Изменить пол" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(3) Изменить дату рождения" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(4) Изменить год поступления в институт" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(5) Изменить институт (факультет)" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(6) Изменить кафедру" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(7) Изменить группу" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(8) Изменить номер зачётной книжки" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(9) Назад" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
 
 	std::cout << ">>> ";
 	std::string action{};
 	std::cin >> action;
 
-	if (action == "-back")
+	if (!cslTools.ValidationOfInput(action))
 	{
 		cslTools.Clear();
+		std::cout << "Некорректно введен номер действия!" << std::endl;
+		std::cout << "Попробуйте ещё раз..." << std::endl;
+		Sleep(3000);
 		EditModePage();
 	}
 
+	switch (std::atoi(action.c_str())) {
+	case 1:
+		cslTools.Clear();
+		ChangedSNPPage(index);
+		break;
+
+	case 2:
+		cslTools.Clear();
+		ChangedGenderPage(index);
+		break;
+
+	case 3:
+		cslTools.Clear();
+		ChangedDateofBirthPage(index);
+		break;
+
+	case 4:
+		cslTools.Clear();
+		ChangedYearAddtoUniversity(index);
+		break;
+
+	case 5:
+		cslTools.Clear();
+		ChangedFaculty(index);
+		break;
+
+	case 6:
+		cslTools.Clear();
+		ChangedDepartment(index);
+		break;
+
+	case 7:
+		cslTools.Clear();
+		ChangedGroup(index);
+		break;
+
+	case 8:
+		cslTools.Clear();
+		ChangedNumberRecordBook(index);
+		break;
+
+	case 9:
+		cslTools.Clear();
+		ChangedRecordPage();
+		break;
+
+	default:
+		cslTools.Clear();
+		std::cout << "Такого номера действия нет!" << std::endl;
+		std::cout << "Попробуйте ещё раз..." << std::endl;
+		Sleep(3000);
+		ChoiceChangedElement(index);
+		break;
+	}
 }
+
+void AConsoleInterface::ChangedSNPPage(int index)
+{
+	std::string Input{};
+
+	Data tempData = db.DataList[index - 1];
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Ф.И.О" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите фамилию >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);
+		}
+	} while (!valIn.isNSPatrinymic(Input));
+
+	tempData.SetSurname(Input);
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Ф.И.О" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите имя >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);;
+		}
+	} while (!valIn.isNSPatrinymic(Input));
+
+	tempData.SetName(Input);
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Ф.И.О" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите отчество >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);;
+		}
+	} while (!valIn.isNSPatrinymic(Input));
+
+	tempData.SetPatrinymic(Input);
+
+	db.ChangedData(tempData, index);
+
+	db.SaveFile();
+
+	AnimationOfLoad();
+
+	ChoiceChangedElement(index);;
+}
+
+void AConsoleInterface::ChangedGenderPage(int index)
+{
+	std::string Input{};
+
+	Data tempData = db.DataList[index - 1];
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Пол" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите пол >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);;
+		}
+	} while (!valIn.isGender(Input));
+
+	tempData.SetGender(Input);
+
+	db.ChangedData(tempData, index);
+
+	db.SaveFile();
+
+	AnimationOfLoad();
+
+	ChoiceChangedElement(index + 1);;
+}
+
+void AConsoleInterface::ChangedDateofBirthPage(int index)
+{
+	std::string Input{};
+
+	Data tempData = db.DataList[index - 1];
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Дата рождения" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите число >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);;
+		}
+
+		if (Input.size() == 1)
+		{
+			Input = '0' + Input;
+		}
+
+	} while (!valIn.isDay(Input));
+
+	tempData.SetDay(Input);
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Дата рождения" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите месяц (номер) >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);;
+		}
+
+		if (Input.size() == 1)
+		{
+			Input = '0' + Input;
+		}
+
+	} while (!valIn.isMonth(Input));
+
+	tempData.SetMonth(Input);
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Дата рождения" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите год >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);;
+		}
+	} while (!valIn.isYAndYUniversity(Input));
+
+	tempData.SetYear(Input);
+
+	db.ChangedData(tempData, index);
+
+	db.SaveFile();
+
+	AnimationOfLoad();
+
+	ChoiceChangedElement(index);
+}
+
+void AConsoleInterface::ChangedYearAddtoUniversity(int index)
+{
+	std::string Input{};
+
+	Data tempData = db.DataList[index - 1];
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Данные студента" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите год поступления в институт >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);;
+		}
+	} while (!valIn.isYAndYUniversity(Input));
+
+	tempData.SetYearAddtoUniversity(Input);
+
+	db.ChangedData(tempData, index);
+
+	db.SaveFile();
+
+	AnimationOfLoad();
+
+	ChoiceChangedElement(index);;
+}
+
+void AConsoleInterface::ChangedFaculty(int index)
+{
+	std::string Input{};
+
+	Data tempData = db.DataList[index - 1];
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Данные студента" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите факультет (институт) >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);
+		}
+	} while (!valIn.isFDepartment(Input));
+
+	tempData.SetFaculty(Input);
+
+	db.ChangedData(tempData, index);
+
+	db.SaveFile();
+
+	AnimationOfLoad();
+
+	ChoiceChangedElement(index);
+}
+
+void AConsoleInterface::ChangedDepartment(int index)
+{
+	std::string Input{};
+
+	Data tempData = db.DataList[index - 1];
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Данные студента" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите кафедру >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);
+		}
+	} while (!valIn.isFDepartment(Input));
+
+	tempData.SetDepartment(Input);
+
+	db.ChangedData(tempData, index);
+
+	db.SaveFile();
+
+	AnimationOfLoad();
+
+	ChoiceChangedElement(index);
+}
+
+void AConsoleInterface::ChangedGroup(int index)
+{
+	std::string Input{};
+
+	Data tempData = db.DataList[index - 1];
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Данные студента" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите номер группы >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);
+		}
+	} while (!valIn.isGroup(Input));
+
+	tempData.SetGroup(Input);
+
+	db.ChangedData(tempData, index);
+
+	db.SaveFile();
+
+	AnimationOfLoad();
+
+	ChoiceChangedElement(index);
+}
+
+void AConsoleInterface::ChangedNumberRecordBook(int index)
+{
+	std::string Input{};
+
+	Data tempData = db.DataList[index - 1];
+
+	do {
+		cslTools.Clear();
+		ShowRecord(index);
+		std::cout << "_______________________Изменение записи_________________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Данные студента" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите номер зачётной книжки >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangedElement(index);
+		}
+	} while (!valIn.isNumberRecordBook(Input));
+
+	tempData.SetNumberRecordBook(Input);
+
+	db.ChangedData(tempData, index);
+
+	db.SaveFile();
+
+	AnimationOfLoad();
+
+	ChoiceChangedElement(index);
+}
+
+void AConsoleInterface::AnimationOfLoad()
+{
+	cslTools.Clear();
+	std::cout << "____________________________Изменение записи___________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно изменена. Возврат на страницу редактирования ........" << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	cslTools.Clear();
+	std::cout << "____________________________Изменение записи___________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно изменена. Возврат на страницу редактирования >>>......" << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	cslTools.Clear();
+	std::cout << "____________________________Изменение записи___________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно изменена. Возврат на страницу редактирования >>>>>>..." << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	cslTools.Clear();
+	std::cout << "____________________________Изменение записи___________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно изменена. Возврат на страницу редактирования >>>>>>>>>" << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+}
+
+
+
 
 void AConsoleInterface::DeleteRecordPage()
 {
-	cslTools.Clear();
-	ShowRecords();
+	std::string Input{};
 
-	std::cout << "____________Удаление записи___________" << std::endl;
-	std::cout << "|" << std::left << std::setw(36) << "Выберете номер записи" << "|" << std::endl;
-	std::cout << "--------------------------------------" << std::endl;
-	std::cout << "|" << std::left << std::setw(36) << "(-back) Назад" << "|" << std::endl;
-	std::cout << "--------------------------------------" << std::endl;
-
-	std::cout << ">>> ";
-	std::string action{};
-	std::cin >> action;
-
-	if (action == "-back")
-	{
+	if (db.DataList.Count() == 0) {
 		cslTools.Clear();
+		std::cout << "_____________________________Удаление записи___________________________" << std::endl;
+		std::cout << "-----------------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(69) << "Записи отсутствуют. Возврат на страницу редактирования" << "|" << std::endl;
+		std::cout << "-----------------------------------------------------------------------" << std::endl;
+		Sleep(2);
 		EditModePage();
 	}
 
+	do {
+		cslTools.Clear();
+		ShowRecords();
+
+		std::cout << "____________Удаление записи___________" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "Выберете номер записи" << "|" << std::endl;
+		std::cout << "--------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "--------------------------------------" << std::endl;
+		std::cout << "Введите номер записи >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			EditModePage();
+		}
+
+	} while (!(valIn.isNumberOfRecord(Input, db.DataList.Count()) && AgreeActionPage(Input)));
+
+
+	db.DeleteRecord(std::atoi(Input.c_str()) - 1);
+
 	cslTools.Clear();
-	std::cout << "____________________________Удаление записи___________________________" << std::endl;
-	std::cout << "----------------------------------------------------------------------" << std::endl;
-	std::cout << "|" << std::left << std::setw(62) << "Запись успешно удалена. Возврат на страницу редактирования ........" << "|" << std::endl;
-	std::cout << "----------------------------------------------------------------------" << std::endl;
+	std::cout << "_____________________________Удаление записи___________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно удалена. Возврат на страницу редактирования ........." << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
 	Sleep(500);
 
 	cslTools.Clear();
-	std::cout << "____________________________Удаление записи___________________________" << std::endl;
-	std::cout << "------------------------------------------------------------------------" << std::endl;
-	std::cout << "|" << std::left << std::setw(62) << "Запись успешно удалена. Возврат на страницу редактирования >>>......" << "|" << std::endl;
-	std::cout << "------------------------------------------------------------------------" << std::endl;
+	std::cout << "_____________________________Удаление записи___________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно удалена. Возврат на страницу редактирования >>>......" << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
 	Sleep(500);
 
 	cslTools.Clear();
-	std::cout << "____________________________Удаление записи___________________________" << std::endl;
-	std::cout << "------------------------------------------------------------------------" << std::endl;
-	std::cout << "|" << std::left << std::setw(62) << "Запись успешно удалена. Возврат на страницу редактирования >>>>>>..." << "|" << std::endl;
-	std::cout << "------------------------------------------------------------------------" << std::endl;
+	std::cout << "_____________________________Удаление записи___________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно удалена. Возврат на страницу редактирования >>>>>>..." << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
 	Sleep(500);
 
 	cslTools.Clear();
-	std::cout << "____________________________Удаление записи___________________________" << std::endl;
-	std::cout << "------------------------------------------------------------------------" << std::endl;
-	std::cout << "|" << std::left << std::setw(62) << "Запись успешно удалена. Возврат на страницу редактирования >>>>>>>>>" << "|" << std::endl;
-	std::cout << "------------------------------------------------------------------------" << std::endl;
+	std::cout << "_____________________________Удаление записи___________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно удалена. Возврат на страницу редактирования >>>>>>>>>" << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
 	Sleep(500);
 
-	
+	db.SaveFile();
+	EditModePage();
 }
 
+bool AConsoleInterface::AgreeActionPage(std::string Input)
+{
+	std::string Answer{};
+	do {
+		cslTools.Clear();
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "| " << std::left << std::setw(56) << "Вы уверены, что хотите удалить запись под номером ? " << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "| " << std::left << std::setw(56) << "Ответ в формате: Y - да / N - нет" << " |" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "Введите ответ >>> ";
+		std::cin >> Input;
+
+	} while (!(Input == "Y" || Input == "N"));
+
+	return valIn.isAgree(Input);
+}
 

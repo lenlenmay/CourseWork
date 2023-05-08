@@ -44,12 +44,12 @@ void ADatabase::ParserFromFile(std::string str)
 		"([{])([a-zA-Zà-ÿ¸À-ß¨]{2,20})(;)"
 		"([a-zA-Zà-ÿ¸À-ß¨]{2,20})(;)"
 		"([a-zA-Zà-ÿ¸À-ß¨]{2,20})(;)"
-		"([a-zA-Zà-ÿ¸À-ß¨]{3,10})(;)"
+		"([a-zA-Zà-ÿ¸À-ß¨]{3,7})(;)"
 		"([0-9]{1,2})(;)([0-9]{1,2})(;)([0-9]{4,4})(;)"
 		"([0-9]{4})(;)"
-		"([a-zA-Zà-ÿ¸À-ß¨_]{2,32})(;)"
-		"([a-zA-Zà-ÿ¸À-ß¨_]{2,32})(;)"
-		"([0-9]{1,6})(;)"
+		"([a-zA-Zà-ÿ¸À-ß¨_]{2,20})(;)"
+		"([a-zA-Zà-ÿ¸À-ß¨_]{2,20})(;)"
+		"([a-zA-Zà-ÿ¸À-ß¨0-9]{1,6})(;)"
 		"([0-9]{1,4})([}])");
 
 	std::cmatch result;
@@ -92,6 +92,16 @@ void ADatabase::SaveFile()
 void ADatabase::AddRecord(Data &data)
 {
 	DataList.AddEnd(data);
+}
+
+void ADatabase::DeleteRecord(int index)
+{
+	DataList.Del(index);
+}
+
+void ADatabase::ChangedData(Data& data, int index)
+{
+	DataList.UpdateData(data, index - 1);
 }
 
 

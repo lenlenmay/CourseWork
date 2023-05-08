@@ -29,4 +29,6 @@ public:
 	void InputInFile(std::string str);
 	void SaveFile();
 	void AddRecord(Data& data);
+	void DeleteRecord(int index);
+	void ChangedData(Data& data, int index);
 };
