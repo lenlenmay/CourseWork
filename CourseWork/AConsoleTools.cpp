@@ -8,7 +8,7 @@ void AConsoleTools::Clear() {
 
 bool AConsoleTools::ValidationOfInput(std::string str)
 {
-	std::regex regular("[0-9]");
+	std::regex regular("[1-9]");
 	if (std::regex_match(str.c_str(), regular) && str.size() == 1)
 		return true;
 	else

@@ -148,6 +148,8 @@
     <ClCompile Include="AList.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="ADatabase.cpp" />
+    <ClCompile Include="Session.cpp" />
+    <ClCompile Include="Sessions.cpp" />
     <ClCompile Include="ValidationInput.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +162,8 @@
     <ClInclude Include="IConsoleApp.h" />
     <ClInclude Include="AList.h" />
     <ClInclude Include="Data.h" />
+    <ClInclude Include="Session.h" />
+    <ClInclude Include="Sessions.h" />
     <ClInclude Include="ValidationInput.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

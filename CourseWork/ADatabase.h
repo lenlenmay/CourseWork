@@ -20,12 +20,14 @@ public:
 
 	List<Data>DataList;
 
-	void Open(std::string PathToFile);
-	void Create(std::string PathToFile);
+	bool Open(std::string PathToFile);
+	bool Create(std::string PathToFile);
 	void ReadFromFile();
 	void ParserFromFile(std::string str);
 	void DeleteContentFromFile(std::string str);
 	std::string FormContentForFile(Data &data);
+	std::string FormSessions(Data &data);
+	std::string FormSubjGrades(Data& data, int index);
 	void InputInFile(std::string str);
 	void SaveFile();
 	void AddRecord(Data& data);

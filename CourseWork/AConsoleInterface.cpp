@@ -9,14 +9,10 @@ AConsoleInterface::AConsoleInterface()
 void AConsoleInterface::Init()
 {
 	StartPage();
-	HWND hWnd = GetForegroundWindow();
-	ShowWindow(hWnd, SW_SHOWMAXIMIZED);
-
 }
 
 void AConsoleInterface::StartPage()
 {
-
 	db.DataList.Clear();
 
 	cslTools.Clear();
@@ -24,6 +20,8 @@ void AConsoleInterface::StartPage()
 	std::cout << "|" << std::left << std::setw(32) << "(1) Открыть существующую БД" << "|" << std::endl;
 	std::cout << "----------------------------------" << std::endl;
 	std::cout << "|" << std::left << std::setw(32) << "(2) Создать новую БД" << "|" << std::endl;
+	std::cout << "----------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(32) << "(3) Выйти из программы" << "|" << std::endl;
 	std::cout << "----------------------------------" << std::endl;
 
 	/*std::string str{"ABOBAOFOF"};
@@ -41,10 +39,7 @@ void AConsoleInterface::StartPage()
 
 	if (!cslTools.ValidationOfInput(action))
 	{
-		cslTools.Clear();
-		std::cout << "Некорректно введен номер действия!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
+		IncorrectInput();
 		StartPage();
 	}
 	
@@ -52,37 +47,45 @@ void AConsoleInterface::StartPage()
 		
 	switch (std::atoi(action.c_str())) {
 	case 1:
-		cslTools.Clear();
-		std::cout << "_________________Открытие существующей БД_________________" << std::endl;
-		std::cout << "|" << std::left << std::setw(56) << "Введите путь и название файла в формате:" << "|" << std::endl;
-		std::cout << "----------------------------------------------------------" << std::endl;
-		std::cout << "|" << std::left << std::setw(56) << "<название диска>:\\<название папки>\\<название файла.txt>" << "|" << std::endl;
-		std::cout << "----------------------------------------------------------" << std::endl;
-		std::cout << "|" << std::left << std::setw(56) << "C:\\Projects_C++\\Files\\new.txt" << "|" << std::endl;
-		std::cout << "----------------------------------------------------------" << std::endl;
-		std::cout << ">>> ";
-		std::cin >> PathToFile;
-		db.Open(PathToFile);
+		
+		do {
+			cslTools.Clear();
+			std::cout << "_________________Открытие существующей БД_________________" << std::endl;
+			std::cout << "|" << std::left << std::setw(56) << "Введите путь и название файла в формате:" << "|" << std::endl;
+			std::cout << "----------------------------------------------------------" << std::endl;
+			std::cout << "|" << std::left << std::setw(56) << "<название диска>:\\<название папки>\\<название файла.txt>" << "|" << std::endl;
+			std::cout << "----------------------------------------------------------" << std::endl;
+			std::cout << "|" << std::left << std::setw(56) << "C:\\Projects_C++\\Files\\new.txt" << "|" << std::endl;
+			std::cout << "----------------------------------------------------------" << std::endl;
+			std::cout << ">>> ";
+			std::cin >> PathToFile;
+		} while (!db.Open(PathToFile));
 		break;
 
 	case 2:
-		cslTools.Clear();
-		std::cout << "____________________Создание новой БД_____________________" << std::endl;
-		std::cout << "|" << std::left << std::setw(56) << "Введите путь и название файла в формате:" << "|" << std::endl;
-		std::cout << "----------------------------------------------------------" << std::endl;
-		std::cout << "|" << std::left << std::setw(56) << "<название диска>:\\<название папки>\\<название файла.txt>" << "|" << std::endl;
-		std::cout << "----------------------------------------------------------" << std::endl;
-		std::cout << "|" << std::left << std::setw(56) << "C:\\Projects_C++\\Files\\new.txt" << "|" << std::endl;
-		std::cout << "----------------------------------------------------------" << std::endl;
-		std::cout << ">>> ";
-		std::cin >> PathToFile;
-		db.Create(PathToFile);
+
+		do {
+			cslTools.Clear();
+			std::cout << "____________________Создание новой БД_____________________" << std::endl;
+			std::cout << "|" << std::left << std::setw(56) << "Введите путь и название файла в формате:" << "|" << std::endl;
+			std::cout << "----------------------------------------------------------" << std::endl;
+			std::cout << "|" << std::left << std::setw(56) << "<название диска>:\\<название папки>\\<название файла.txt>" << "|" << std::endl;
+			std::cout << "----------------------------------------------------------" << std::endl;
+			std::cout << "|" << std::left << std::setw(56) << "C:\\Projects_C++\\Files\\new.txt" << "|" << std::endl;
+			std::cout << "----------------------------------------------------------" << std::endl;
+			std::cout << ">>> ";
+			std::cin >> PathToFile;
+		} while (!db.Create(PathToFile));
 		break;
-	default:
+
+	case 3:
+
 		cslTools.Clear();
-		std::cout << "Такого номера действия нет!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
+		exit(0);
+		break;
+
+	default:
+		IncorrectInput();
 		MainPage();
 		break;
 	}
@@ -100,6 +103,8 @@ void AConsoleInterface::MainPage()
 	std::cout << "----------------------------------" << std::endl;
 	std::cout << "|" << std::left << std::setw(32) << "(3) Назад" << "|" << std::endl;
 	std::cout << "----------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(32) << "(4) Выйти из программы" << "|" << std::endl;
+	std::cout << "----------------------------------" << std::endl;
 
 	std::string action{};
 	std::cout << ">>> ";
@@ -109,10 +114,7 @@ void AConsoleInterface::MainPage()
 
 	if (!cslTools.ValidationOfInput(action))
 	{
-		cslTools.Clear();
-		std::cout << "Некорректно введен номер действия!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
+		IncorrectInput();
 		MainPage();
 	}
 
@@ -126,7 +128,7 @@ void AConsoleInterface::MainPage()
 
 	case 2:
 		cslTools.Clear();
-		EditModePage();
+		ChoiceEditPage();
 		break;
 
 	case 3:
@@ -134,11 +136,13 @@ void AConsoleInterface::MainPage()
 		StartPage();
 		break;
 
-	default:
+	case 4:
 		cslTools.Clear();
-		std::cout << "Такого номера действия нет!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
+		exit(0);
+		break;
+
+	default:
+		IncorrectInput();
 		MainPage();
 		break;
 	}
@@ -152,9 +156,11 @@ void AConsoleInterface::ViewPage()
 	std::cout << "_________Режим просмотра__________" << std::endl;
 	std::cout << "|" << std::left << std::setw(32) << "(1) Посмотреть записи БД" << "|" << std::endl;
 	std::cout << "----------------------------------" << std::endl;
-	std::cout << "|" << std::left << std::setw(32) << "(2) Сортировка группы по оценкам" << "|" << std::endl;
+	std::cout << "|" << std::left << std::setw(32) << "(2) Посмотреть сессии студента" << "|" << std::endl;
 	std::cout << "----------------------------------" << std::endl;
-	std::cout << "|" << std::left << std::setw(32) << "(3) Назад" << "|" << std::endl;
+	std::cout << "|" << std::left << std::setw(32) << "(3) Сортировка группы по оценкам" << "|" << std::endl;
+	std::cout << "----------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(32) << "(4) Назад" << "|" << std::endl;
 	std::cout << "----------------------------------" << std::endl;
 
 	std::cout << ">>> ";
@@ -163,10 +169,7 @@ void AConsoleInterface::ViewPage()
 
 	if (!cslTools.ValidationOfInput(action))
 	{
-		cslTools.Clear();
-		std::cout << "Некорректно введен номер действия!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
+		IncorrectInput();
 		ViewPage();
 	}
 
@@ -178,17 +181,21 @@ void AConsoleInterface::ViewPage()
 
 	case 2:
 		cslTools.Clear();
+		ViewSessionsPage();
+		break;
+
+	case 3:
+		cslTools.Clear();
 		ViewSortedRecordsPage();
 		break;
-	case 3:
+
+	case 4:
 		cslTools.Clear();
 		MainPage();
 		break;
+
 	default:
-		cslTools.Clear();
-		std::cout << "Такого номера действия нет!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
+		IncorrectInput();
 		ViewPage();
 		break;
 	}
@@ -246,7 +253,7 @@ void AConsoleInterface::ShowRecords()
 	std::cout << "________________________________________________________________________________База данных_______________________________________________________________________________________" << std::endl;
 	std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 	if (db.DataList.Count() == 0) {
-		std::cout << "| " << std::left << std::setw(175) << "Записи отсутствуют" << " |" << std::endl;
+		std::cout << "| " << std::left << std::setw(174) << "Записи отсутствуют" << " |" << std::endl;
 		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 	}
 	else {
@@ -291,6 +298,17 @@ void AConsoleInterface::ShowRecords()
 	
 }
 
+std::string AConsoleInterface::IndexAddedSession(int NumberOfRecord)
+{
+	std::string Indexs{};
+	for (int i = 0; i < 9; i++) {
+		if (db.DataList[NumberOfRecord - 1].Sessions.isSession(i)) {
+			Indexs += " " + std::to_string(i + 1);
+		}
+	}
+	return Indexs;
+}
+
 
 void AConsoleInterface::ViewRecordsPage()
 {
@@ -306,10 +324,7 @@ void AConsoleInterface::ViewRecordsPage()
 
 	if (!cslTools.ValidationOfInput(action))
 	{
-		cslTools.Clear();
-		std::cout << "Некорректно введен номер действия!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
+		IncorrectInput();
 		ViewRecordsPage();
 	}
 
@@ -319,12 +334,143 @@ void AConsoleInterface::ViewRecordsPage()
 		ViewPage();
 		break;
 	default:
-		cslTools.Clear();
-		std::cout << "Такого номера действия нет!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
+		IncorrectInput();
 		ViewRecordsPage();
 		break;
+	}
+}
+
+void AConsoleInterface::ViewSessionsPage()
+{
+	std::string Input{};
+	int NumberOfRecord = 0;
+
+	do {
+		cslTools.Clear();
+		ShowRecords();
+
+		std::cout << "_____________Выбор студента для просмотра сессии___________" << std::endl;
+		std::cout << "|" << std::left << std::setw(57) << "Выберете номер записи студента" << "|" << std::endl;
+		std::cout << "-----------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(57) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "-----------------------------------------------------------" << std::endl;
+		std::cout << "Введите номер записи студента >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ViewPage();
+		}
+
+	} while (!(valIn.isNumberOfRecord(Input, db.DataList.Count())));
+
+	NumberOfRecord = std::atoi(Input.c_str());
+	
+	ChoiceViewSessionPage(NumberOfRecord);
+
+}
+
+void AConsoleInterface::ChoiceViewSessionPage(int NumberOfRecord)
+{
+	std::string Input{};
+
+	do {
+		cslTools.Clear();
+		ShowRecord(NumberOfRecord);
+
+		std::cout << "_______________________Выбор сессии_________________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "Выберете номер сессии" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "|Список добавленных сессий:" << std::left << std::setw(31) << IndexAddedSession(NumberOfRecord) << " |" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "Введите номер сессии >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ViewSessionsPage();
+		}
+
+	} while (!(cslTools.ValidationOfInput(Input)));
+
+	if (db.DataList[NumberOfRecord - 1].Sessions.isSession(std::atoi(Input.c_str()) - 1)) {
+		ViewSessionPage(NumberOfRecord, std::atoi(Input.c_str()));
+	}
+	else {
+		cslTools.Clear();
+		std::cout << "__________________________Выбор сессии________________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(60) << "Такой сессии нет. Добавьте её в режиме редактирования" << "|" << std::endl;
+		std::cout << "--------------------------------------------------------------" << std::endl;
+		Sleep(2000);
+		ChoiceViewSessionPage(NumberOfRecord);
+	}
+	
+}
+
+void AConsoleInterface::ViewSessionPage(int NumberOfRecord, int NumberOfSession)
+{
+	ShowSession(NumberOfRecord, NumberOfSession);
+
+	std::cout << std::endl << "--------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(48) << "(1) Назад" << "|" << std::endl;
+	std::cout << "--------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(48) << "(2) Вернуться к странице выбора студента" << "|" << std::endl;
+	std::cout << "--------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(48) << "(3) Вернуться к странице выбора просмотра" << "|" << std::endl;
+	std::cout << "--------------------------------------------------" << std::endl;
+
+	std::cout << ">>> ";
+	std::string action{};
+	std::cin >> action;
+
+	if (!cslTools.ValidationOfInput(action))
+	{
+		IncorrectInput();
+		ViewRecordsPage();
+	}
+
+	switch (std::atoi(action.c_str())) {
+	case 1:
+		cslTools.Clear();
+		ChoiceViewSessionPage(NumberOfRecord);
+		break;
+
+	case 2:
+		cslTools.Clear();
+		ViewSessionsPage();
+		break;
+
+	case 3:
+		cslTools.Clear();
+		ViewPage();
+		break;
+	default:
+		IncorrectInput();
+		ViewSessionPage(NumberOfRecord, NumberOfSession);
+		break;
+	}
+}
+
+void AConsoleInterface::ShowSession(int NumberOfRecord, int NumberOfSession)
+{
+	cslTools.Clear();
+	Data tempData = db.DataList[NumberOfRecord - 1];
+	std::cout << "__________________Сессия " << NumberOfSession << "_________________" << std::endl;
+	if (tempData.Sessions.sessions[NumberOfSession - 1].GetcountSubjects() == 0) {
+		std::cout << "-------------------------------------------" << std::endl;
+		std::cout << "| " << std::left << std::setw(39) << "Записи в сессии отсутствуют" << " |" << std::endl;
+		std::cout << "-------------------------------------------" << std::endl;
+	}
+	else {
+		std::cout << "-------------------------------------------" << std::endl;
+		std::cout << "| № | " << std::left << std::setw(26) << "Предмет" << " | " << std::left << std::setw(6) << "Оценка" << " |" << std::endl;
+		std::cout << "-------------------------------------------" << std::endl;
+
+		for (int i = 0; i < tempData.Sessions.sessions[NumberOfSession - 1].GetcountSubjects(); i++) {
+			std::cout << "| " << i + 1 << " | " << std::left << std::setw(26) << tempData.Sessions.sessions[NumberOfSession - 1].subjGrades[i].GetSubject() << " | " <<
+				std::left << std::setw(6) << tempData.Sessions.sessions[NumberOfSession - 1].subjGrades[i].GetGrade() << " |" << std::endl;
+			std::cout << "-------------------------------------------" << std::endl;
+		}
 	}
 }
 
@@ -333,7 +479,52 @@ void AConsoleInterface::ViewSortedRecordsPage()
 
 }
 
-void AConsoleInterface::EditModePage()
+void AConsoleInterface::ChoiceEditPage()
+{
+	cslTools.Clear();
+
+	std::cout << "__________Выбор редактирования_________" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(1) Редактировать записи БД" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(2) Редактировать данные сессий" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(3) Назад" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+
+	std::cout << ">>> ";
+	std::string action{};
+	std::cin >> action;
+
+	if (!cslTools.ValidationOfInput(action))
+	{
+		IncorrectInput();
+		ViewPage();
+	}
+
+	switch (std::atoi(action.c_str())) {
+	case 1:
+		cslTools.Clear();
+		EditRecordPage();
+		break;
+
+	case 2:
+		cslTools.Clear();
+		EditSessionsPage();
+		break;
+
+	case 3:
+		cslTools.Clear();
+		MainPage();
+		break;
+
+	default:
+		IncorrectInput();
+		ChoiceEditPage();
+		break;
+	}
+}
+
+void AConsoleInterface::EditRecordPage()
 {
 	cslTools.Clear();
 	ShowRecords();
@@ -354,11 +545,8 @@ void AConsoleInterface::EditModePage()
 
 	if (!cslTools.ValidationOfInput(action))
 	{
-		cslTools.Clear();
-		std::cout << "Некорректно введен номер действия!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
-		EditModePage();
+		IncorrectInput();
+		EditRecordPage();
 	}
 
 	switch (std::atoi(action.c_str())) {
@@ -383,14 +571,610 @@ void AConsoleInterface::EditModePage()
 		break;
 
 	default:
-		cslTools.Clear();
-		std::cout << "Такого номера действия нет!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
-		EditModePage();
+		IncorrectInput();
+		ChoiceEditPage();
 		break;
 	}
 
+}
+
+void AConsoleInterface::EditSessionsPage()
+{
+	std::string Input{};
+	int NumberOfRecord = 0;
+
+	do {
+		cslTools.Clear();
+		ShowRecords();
+
+		std::cout << "_____________Выбор студента для редактирования сессий___________" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Выберете номер записи студента" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите номер записи студента >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ViewPage();
+		}
+
+	} while (!(valIn.isNumberOfRecord(Input, db.DataList.Count())));
+
+	NumberOfRecord = std::atoi(Input.c_str());
+
+	ChoiceEditActionSessionPage(NumberOfRecord);
+}
+
+void AConsoleInterface::ChoiceEditActionSessionPage(int NumberOfRecord)
+{
+	cslTools.Clear();
+	std::cout << "_________Редактирование сессий_________" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(1) Редактировать сессию" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(2) Добавить сессию" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(3) Удалить сессию" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(4) Назад" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(5) Вернуться к выбору редактирования" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+
+	std::cout << ">>> ";
+	std::string action{};
+	std::cin >> action;
+
+	if (!cslTools.ValidationOfInput(action))
+	{
+		IncorrectInput();
+		ChoiceEditActionSessionPage(NumberOfRecord);
+	}
+
+	switch (std::atoi(action.c_str())) {
+	case 1:
+		cslTools.Clear();
+		ChoiceEditSessionPage(NumberOfRecord);
+		break;
+
+	case 2:
+		cslTools.Clear();
+		AddSessionPage(NumberOfRecord);
+		break;
+
+	case 3:
+		cslTools.Clear();
+		DeleteSessionPage(NumberOfRecord);
+		break;
+
+	case 4:
+		cslTools.Clear();
+		EditSessionsPage();
+		break;
+
+	case 5:
+		cslTools.Clear();
+		ChoiceEditPage();
+		break;
+
+	default:
+		IncorrectInput();
+		ChoiceEditActionSessionPage(NumberOfRecord);
+		break;
+	}
+}
+
+void AConsoleInterface::ChoiceEditSessionPage(int NumberOfRecord)
+{
+	std::string Input{};
+
+	do {
+		cslTools.Clear();
+
+		std::cout << "_______________________Выбор сессии_________________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "Выберете номер сессии" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "|Список добавленных сессий:" << std::left << std::setw(31) << IndexAddedSession(NumberOfRecord) << " |" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "Введите номер сессии >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceEditActionSessionPage(NumberOfRecord);
+		}
+
+	} while (!(cslTools.ValidationOfInput(Input)));
+
+	if (db.DataList[NumberOfRecord - 1].Sessions.isSession(std::atoi(Input.c_str()) - 1)) {
+		EditSessionPage(NumberOfRecord, std::atoi(Input.c_str()));
+	}
+	else {
+		cslTools.Clear();
+		std::cout << "__________________________Выбор сессии________________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(60) << "Такой сессии нет. Добавьте её." << "|" << std::endl;
+		std::cout << "--------------------------------------------------------------" << std::endl;
+		Sleep(2000);
+		ChoiceEditSessionPage(NumberOfRecord);
+	}
+}
+
+void AConsoleInterface::EditSessionPage(int NumberOfRecord, int NumberOfSession)
+{
+	cslTools.Clear();
+	ShowSession(NumberOfRecord, NumberOfSession);
+	std::cout << "________Редактирование сессии "<< NumberOfSession <<"________" << std::endl;
+	if (db.DataList[NumberOfRecord - 1].Sessions.sessions[NumberOfSession - 1].GetcountSubjects() == 10) {
+		std::cout << "|" << std::left << std::setw(37) << "(X) Сессия заполнена" << "|" << std::endl;
+		std::cout << "---------------------------------------" << std::endl;
+	}
+	else {
+		std::cout << "|" << std::left << std::setw(37) << "(1) Добавить запись" << "|" << std::endl;
+		std::cout << "---------------------------------------" << std::endl;
+	}
+	
+	std::cout << "|" << std::left << std::setw(37) << "(2) Изменить запись" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(3) Удалить запись" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(4) Назад" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(37) << "(5) Вернуться к редактированию сессий" << "|" << std::endl;
+	std::cout << "---------------------------------------" << std::endl;
+
+	std::cout << ">>> ";
+	std::string action{};
+	std::cin >> action;
+
+	if (!cslTools.ValidationOfInput(action))
+	{
+		IncorrectInput();
+		EditSessionPage(NumberOfRecord, NumberOfSession);
+	}
+
+	switch (std::atoi(action.c_str())) {
+	case 1:
+		cslTools.Clear();
+		if (db.DataList[NumberOfRecord - 1].Sessions.sessions[NumberOfSession - 1].GetcountSubjects() < 10) {
+			AddRecordSessionPage(NumberOfRecord, NumberOfSession);
+		}
+		else {
+			EditSessionPage(NumberOfRecord, NumberOfSession);
+		}
+		
+		break;
+
+	case 2:
+		cslTools.Clear();
+		ChangeRecordSessionPage(NumberOfRecord, NumberOfSession);
+		break;
+
+	case 3:
+		cslTools.Clear();
+		DeleteRecordSessionPage(NumberOfRecord, NumberOfSession);
+		break;
+
+	case 4:
+		cslTools.Clear();
+		ChoiceEditSessionPage(NumberOfRecord);
+		break;
+
+	case 5:
+		cslTools.Clear();
+		ChoiceEditActionSessionPage(NumberOfRecord);
+		break;
+
+	default:
+		IncorrectInput();
+		EditSessionPage(NumberOfRecord, NumberOfSession);
+		break;
+	}
+}
+
+void AConsoleInterface::AddRecordSessionPage(int NumberOfRecord, int NumberOfSession)
+{
+	std::string InputSubject{};
+	std::string InputGrade{};
+	Data tempData;
+	do {
+		cslTools.Clear();
+		ShowSession(NumberOfRecord, NumberOfSession);
+		std::cout << "___________________Добавление записи в сессию " << NumberOfSession << "_________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Предмет" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите предмет >>> ";
+		std::cin >> InputSubject;
+
+		if (InputSubject == "-back") {
+			EditSessionPage(NumberOfRecord, NumberOfSession);
+		}
+	} while (!valIn.isSubject(InputSubject));
+
+	
+
+	do {
+		cslTools.Clear();
+		ShowSession(NumberOfRecord, NumberOfSession);
+		std::cout << "___________________Добавление записи в сессию " << NumberOfSession << "_________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Оценка" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите оценку >>> ";
+		std::cin >> InputGrade;
+
+		if (InputGrade == "-back") {
+			EditSessionPage(NumberOfRecord, NumberOfSession);
+		}
+	} while (!valIn.isGrade(InputGrade));
+
+	tempData.Sessions.sessions[NumberOfSession - 1].AddSubjGrades(InputSubject, InputGrade);
+
+	db.ChangedData(tempData, NumberOfRecord);
+
+	cslTools.Clear();
+	std::cout << "________________________Добавление записи в сессию______________________" << std::endl;
+	std::cout << "------------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(62) << "Запись успешно добавлена. Возврат на страницу редактирования ........" << "|" << std::endl;
+	std::cout << "------------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	cslTools.Clear();
+	std::cout << "________________________Добавление записи в сессию______________________" << std::endl;
+	std::cout << "------------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(62) << "Запись успешно добавлена. Возврат на страницу редактирования >>>......" << "|" << std::endl;
+	std::cout << "------------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	cslTools.Clear();
+	std::cout << "________________________Добавление записи в сессию______________________" << std::endl;
+	std::cout << "------------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(62) << "Запись успешно добавлена. Возврат на страницу редактирования >>>>>>..." << "|" << std::endl;
+	std::cout << "------------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	cslTools.Clear();
+	std::cout << "________________________Добавление записи в сессию______________________" << std::endl;
+	std::cout << "------------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(62) << "Запись успешно добавлена. Возврат на страницу редактирования >>>>>>>>>" << "|" << std::endl;
+	std::cout << "------------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	db.ChangedData(tempData, NumberOfRecord);
+
+	db.SaveFile();
+
+	EditSessionPage(NumberOfRecord, NumberOfSession);
+}
+
+void AConsoleInterface::ChangeRecordSessionPage(int NumberOfRecord, int NumberOfSession)
+{
+	std::string Input{};
+	Data tempData = db.DataList[NumberOfRecord - 1];
+
+	if (tempData.Sessions.sessions[NumberOfSession - 1].GetcountSubjects() == 0) {
+		cslTools.Clear();
+		std::cout << "________________________Изменение записи сессии " << NumberOfSession << "______________________" << std::endl;
+		std::cout << "-----------------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(69) << "Записи сессии отсутствуют. Возврат на страницу редактирования" << "|" << std::endl;
+		std::cout << "-----------------------------------------------------------------------" << std::endl;
+		Sleep(2000);
+		EditSessionPage(NumberOfRecord, NumberOfSession);
+	}
+
+	do {
+		cslTools.Clear();
+		ShowSession(NumberOfRecord, NumberOfSession);
+
+		std::cout << "________Изменение записи сессии " << NumberOfSession << "_____" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "Выберете номер записи" << "|" << std::endl;
+		std::cout << "--------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "--------------------------------------" << std::endl;
+		std::cout << "Введите номер записи >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			EditSessionPage(NumberOfRecord, NumberOfSession);
+		}
+
+	} while (!(valIn.isNumberOfRecordSession(Input, tempData.Sessions.sessions[NumberOfSession - 1].GetcountSubjects())));
+
+	ChoiceChangeRecordSessionPage(NumberOfRecord, NumberOfSession, std::atoi(Input.c_str()));
+}
+
+void AConsoleInterface::ChoiceChangeRecordSessionPage(int NumberOfRecord, int NumberOfSession, int NumberOfRecordSession)
+{
+	cslTools.Clear();
+	ShowSession(NumberOfRecord, NumberOfSession);
+
+	std::cout << "____________Изменение записи сессии___________" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(1) Изменить предмет" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(2) Изменить оценку" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(3) Назад" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(44) << "(4) Вернуться к редактированию сессии" << "|" << std::endl;
+	std::cout << "----------------------------------------------" << std::endl;
+
+	std::cout << ">>> ";
+	std::string action{};
+	std::cin >> action;
+
+	if (!cslTools.ValidationOfInput(action))
+	{
+		IncorrectInput();
+		ChoiceChangeRecordSessionPage(NumberOfRecord, NumberOfSession, NumberOfRecordSession);
+	}
+
+	switch (std::atoi(action.c_str())) {
+	case 1:
+		cslTools.Clear();
+		ChangeSubjectRecordSessionPage(NumberOfRecord, NumberOfSession, NumberOfRecordSession);
+		break;
+
+	case 2:
+		cslTools.Clear();
+		ChangeGradeRecordSessionPage(NumberOfRecord, NumberOfSession, NumberOfRecordSession);
+		break;
+
+	case 3:
+		cslTools.Clear();
+		ChangeRecordSessionPage(NumberOfRecord, NumberOfSession);
+		break;
+
+	case 4:
+		cslTools.Clear();
+		EditSessionPage(NumberOfRecord, NumberOfSession);
+		break;
+
+	default:
+		IncorrectInput();
+		ChoiceChangeRecordSessionPage(NumberOfRecord, NumberOfSession, NumberOfRecordSession);
+		break;
+	}
+}
+
+void AConsoleInterface::ChangeSubjectRecordSessionPage(int NumberOfRecord, int NumberOfSession, int NumberOfRecordSession)
+{
+	std::string Input{};
+	Data tempData = db.DataList[NumberOfRecord - 1];
+
+	do {
+		cslTools.Clear();
+		ShowSession(NumberOfRecord, NumberOfSession);
+		std::cout << "___________________Изменение записи в сессии " << NumberOfSession << "__________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Предмет" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите предмет >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangeRecordSessionPage(NumberOfRecord, NumberOfSession, NumberOfRecordSession);
+		}
+	} while (!valIn.isSubject(Input));
+
+	tempData.Sessions.sessions[NumberOfSession - 1].subjGrades[NumberOfRecordSession - 1].SetSubject(Input);
+
+	db.ChangedData(tempData, NumberOfRecord);
+
+	db.SaveFile();
+
+	ChoiceChangeRecordSessionPage(NumberOfRecord, NumberOfSession, NumberOfRecordSession);
+}
+
+void AConsoleInterface::ChangeGradeRecordSessionPage(int NumberOfRecord, int NumberOfSession, int NumberOfRecordSession)
+{
+	std::string Input{};
+	Data tempData = db.DataList[NumberOfRecord - 1];
+
+	do {
+		cslTools.Clear();
+		ShowSession(NumberOfRecord, NumberOfSession);
+		std::cout << "___________________Изменение записи в сессии " << NumberOfSession << "__________________" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "(-back) Назад (в случае выхода введённые данные не сохранятся)" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(62) << "Оценка" << "|" << std::endl;
+		std::cout << "----------------------------------------------------------------" << std::endl;
+		std::cout << "Введите оценку >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceChangeRecordSessionPage(NumberOfRecord, NumberOfSession, NumberOfRecordSession);
+		}
+	} while (!valIn.isGrade(Input));
+
+	tempData.Sessions.sessions[NumberOfSession - 1].subjGrades[NumberOfRecordSession - 1].SetGrade(Input);
+
+	db.ChangedData(tempData, NumberOfRecord);
+
+	db.SaveFile();
+
+	ChoiceChangeRecordSessionPage(NumberOfRecord, NumberOfSession, NumberOfRecordSession);
+}
+
+void AConsoleInterface::DeleteRecordSessionPage(int NumberOfRecord, int NumberOfSession)
+{
+	std::string Input{};
+	Data tempData = db.DataList[NumberOfRecord - 1];
+
+	if (tempData.Sessions.sessions[NumberOfSession - 1].GetcountSubjects() == 0) {
+		cslTools.Clear();
+		std::cout << "_________________________Удаление записи сессии " << NumberOfSession << "______________________" << std::endl;
+		std::cout << "-----------------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(69) << "Записи сессии отсутствуют. Возврат на страницу редактирования" << "|" << std::endl;
+		std::cout << "-----------------------------------------------------------------------" << std::endl;
+		Sleep(2000);
+		EditRecordPage();
+	}
+
+	do {
+		cslTools.Clear();
+		ShowSession(NumberOfRecord, NumberOfSession);
+
+		std::cout << "_________Удаление записи сессии " << NumberOfSession << "_______" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "Выберете номер записи" << "|" << std::endl;
+		std::cout << "--------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(36) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "--------------------------------------" << std::endl;
+		std::cout << "Введите номер записи >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			EditRecordPage();
+		}
+
+	} while (!(valIn.isNumberOfRecordSession(Input, tempData.Sessions.sessions[NumberOfSession - 1].GetcountSubjects()) && AgreeActionPage(Input)));
+
+	tempData.Sessions.sessions[NumberOfSession - 1].DeleteSubjGrades(std::atoi(Input.c_str()) - 1);
+
+	db.ChangedData(tempData, NumberOfRecord);
+
+	cslTools.Clear();
+	std::cout << "_________________________Удаление записи сессии________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно удалена. Возврат на страницу редактирования ........." << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	cslTools.Clear();
+	std::cout << "_________________________Удаление записи сессии________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно удалена. Возврат на страницу редактирования >>>......" << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	cslTools.Clear();
+	std::cout << "_________________________Удаление записи сессии________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно удалена. Возврат на страницу редактирования >>>>>>..." << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	cslTools.Clear();
+	std::cout << "_________________________Удаление записи сессии________________________" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(69) << "Запись успешно удалена. Возврат на страницу редактирования >>>>>>>>>" << "|" << std::endl;
+	std::cout << "-----------------------------------------------------------------------" << std::endl;
+	Sleep(500);
+
+	db.SaveFile();
+
+	EditSessionPage(NumberOfRecord, NumberOfSession);
+}
+
+
+
+void AConsoleInterface::AddSessionPage(int NumberOfRecord)
+{
+	std::string Input{};
+
+	do {
+		cslTools.Clear();
+
+		std::cout << "_____________________Добавление сессии______________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "Выберете номер сессии" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "|Список добавленных сессий:" << std::left << std::setw(31) << IndexAddedSession(NumberOfRecord) << " |" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "Введите номер сессии >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceEditActionSessionPage(NumberOfRecord);
+		}
+
+	} while (!(cslTools.ValidationOfInput(Input)));
+
+	if (!db.DataList[NumberOfRecord - 1].Sessions.isSession(std::atoi(Input.c_str()) - 1)) {
+		cslTools.Clear();
+		std::cout << "_______________________Добавление сессии______________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(60) << "Сессия успешно добавлена." << "|" << std::endl;
+		std::cout << "--------------------------------------------------------------" << std::endl;
+
+		Sleep(2000);
+
+		db.SaveFile();
+
+		Data tempData = db.DataList[NumberOfRecord - 1];
+		tempData.Sessions.AddSession(std::atoi(Input.c_str()) - 1);
+		db.ChangedData(tempData, NumberOfRecord);
+		ChoiceEditActionSessionPage(NumberOfRecord);
+	}
+	else {
+		cslTools.Clear();
+		std::cout << "_______________________Добавление сессии______________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(60) << "Сессия уже добавлена. Введите другой номер." << "|" << std::endl;
+		std::cout << "--------------------------------------------------------------" << std::endl;
+		Sleep(2000);
+
+		db.SaveFile();
+
+		AddSessionPage(NumberOfRecord);
+	}
+}
+
+void AConsoleInterface::DeleteSessionPage(int NumberOfRecord)
+{
+	std::string Input{};
+
+	do {
+		cslTools.Clear();
+
+		std::cout << "______________________Удаление сессии_______________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "Выберете номер сессии" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "|Список добавленных сессий:" << std::left << std::setw(31) << IndexAddedSession(NumberOfRecord) << " |" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "Введите номер сессии >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ChoiceEditActionSessionPage(NumberOfRecord);
+		}
+
+	} while (!(cslTools.ValidationOfInput(Input)));
+
+	if (db.DataList[NumberOfRecord - 1].Sessions.isSession(std::atoi(Input.c_str()) - 1)) {
+		cslTools.Clear();
+		std::cout << "________________________Удаление сессии_______________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(60) << "Сессия успешно удалена." << "|" << std::endl;
+		std::cout << "--------------------------------------------------------------" << std::endl;
+
+		Sleep(2000);
+
+		db.SaveFile();
+
+		Data tempData = db.DataList[NumberOfRecord - 1];
+		tempData.Sessions.DeleteSession(std::atoi(Input.c_str()) - 1);
+		db.ChangedData(tempData, NumberOfRecord);
+		ChoiceEditActionSessionPage(NumberOfRecord);
+	}
+	else {
+		cslTools.Clear();
+		std::cout << "________________________Удаление сессии_______________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(60) << "Сессия уже удалена. Введите другой номер." << "|" << std::endl;
+		std::cout << "--------------------------------------------------------------" << std::endl;
+		Sleep(2000);
+
+		db.SaveFile();
+
+		DeleteSessionPage(NumberOfRecord);
+	}
 }
 
 void AConsoleInterface::AddRecordPage()
@@ -410,7 +1194,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isNSPatrinymic(Input));
 
@@ -429,7 +1213,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isNSPatrinymic(Input));
 
@@ -448,7 +1232,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isNSPatrinymic(Input));
 
@@ -467,7 +1251,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isGender(Input));
 
@@ -486,7 +1270,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 
 		if (Input.size() == 1)
@@ -511,7 +1295,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 
 		if (Input.size() == 1)
@@ -536,7 +1320,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isYAndYUniversity(Input));
 
@@ -555,7 +1339,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isYAndYUniversity(Input));
 
@@ -574,7 +1358,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isFDepartment(Input));
 
@@ -593,7 +1377,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isFDepartment(Input));
 
@@ -612,7 +1396,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isGroup(Input));
 
@@ -631,7 +1415,7 @@ void AConsoleInterface::AddRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 	} while (!valIn.isNumberRecordBook(Input));
 
@@ -668,7 +1452,7 @@ void AConsoleInterface::AddRecordPage()
 	Sleep(500);
 
 	db.SaveFile();
-	EditModePage();
+	EditRecordPage();
 }
 
 void AConsoleInterface::ChangedRecordPage()
@@ -688,7 +1472,7 @@ void AConsoleInterface::ChangedRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 
 	} while (!(valIn.isNumberOfRecord(Input, db.DataList.Count())));
@@ -727,11 +1511,8 @@ void AConsoleInterface::ChoiceChangedElement(int index)
 
 	if (!cslTools.ValidationOfInput(action))
 	{
-		cslTools.Clear();
-		std::cout << "Некорректно введен номер действия!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
-		EditModePage();
+		IncorrectInput();
+		EditRecordPage();
 	}
 
 	switch (std::atoi(action.c_str())) {
@@ -781,10 +1562,7 @@ void AConsoleInterface::ChoiceChangedElement(int index)
 		break;
 
 	default:
-		cslTools.Clear();
-		std::cout << "Такого номера действия нет!" << std::endl;
-		std::cout << "Попробуйте ещё раз..." << std::endl;
-		Sleep(3000);
+		IncorrectInput();
 		ChoiceChangedElement(index);
 		break;
 	}
@@ -1194,8 +1972,8 @@ void AConsoleInterface::DeleteRecordPage()
 		std::cout << "-----------------------------------------------------------------------" << std::endl;
 		std::cout << "|" << std::left << std::setw(69) << "Записи отсутствуют. Возврат на страницу редактирования" << "|" << std::endl;
 		std::cout << "-----------------------------------------------------------------------" << std::endl;
-		Sleep(2);
-		EditModePage();
+		Sleep(2000);
+		EditRecordPage();
 	}
 
 	do {
@@ -1211,7 +1989,7 @@ void AConsoleInterface::DeleteRecordPage()
 		std::cin >> Input;
 
 		if (Input == "-back") {
-			EditModePage();
+			EditRecordPage();
 		}
 
 	} while (!(valIn.isNumberOfRecord(Input, db.DataList.Count()) && AgreeActionPage(Input)));
@@ -1248,7 +2026,7 @@ void AConsoleInterface::DeleteRecordPage()
 	Sleep(500);
 
 	db.SaveFile();
-	EditModePage();
+	EditRecordPage();
 }
 
 bool AConsoleInterface::AgreeActionPage(std::string Input)
@@ -1257,7 +2035,7 @@ bool AConsoleInterface::AgreeActionPage(std::string Input)
 	do {
 		cslTools.Clear();
 		std::cout << "------------------------------------------------------------" << std::endl;
-		std::cout << "| " << std::left << std::setw(56) << "Вы уверены, что хотите удалить запись под номером ? " << "|" << std::endl;
+		std::cout << "| " << std::left << std::setw(56) << "Вы уверены, что хотите удалить запись ? " << "|" << std::endl;
 		std::cout << "------------------------------------------------------------" << std::endl;
 		std::cout << "| " << std::left << std::setw(56) << "Ответ в формате: Y - да / N - нет" << " |" << std::endl;
 		std::cout << "------------------------------------------------------------" << std::endl;
@@ -1267,5 +2045,16 @@ bool AConsoleInterface::AgreeActionPage(std::string Input)
 	} while (!(Input == "Y" || Input == "N"));
 
 	return valIn.isAgree(Input);
+}
+
+void AConsoleInterface::IncorrectInput()
+{
+	cslTools.Clear();
+	std::cout << "_________________________Выбор действия_________________________" << std::endl;
+	std::cout << "|" << std::left << std::setw(62) << "Некорректно введен номер действия!" << "|" << std::endl;
+	std::cout << "----------------------------------------------------------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(62) << "Попробуйте ещё раз..." << "|" << std::endl;
+	std::cout << "----------------------------------------------------------------" << std::endl;
+	Sleep(3000);
 }
 

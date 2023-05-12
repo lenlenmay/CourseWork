@@ -109,3 +109,41 @@ bool ValidationInput::isAgree(std::string input)
 	}
 }
 
+bool ValidationInput::isGrade(std::string input)
+{
+	std::regex regular("[2-5]{1}");
+	return std::regex_match(input.c_str(), regular);
+}
+
+bool ValidationInput::isSubject(std::string input)
+{
+	std::regex regular("[a-zA-Zа-яёА-ЯЁ_]{2,20}");
+	return std::regex_match(input.c_str(), regular);
+}
+
+bool ValidationInput::isNumberOfRecordSession(std::string input, int count)
+{
+	std::regex regular("[0-9]{1,2}");
+	if (std::regex_match(input.c_str(), regular)) {
+		int index = std::atoi(input.c_str());
+		if (0 < index && index <= count) {
+
+			return true;
+		}
+		else {
+			std::cout << "------------------------------------------" << std::endl;
+			std::cout << "| " << std::left << std::setw(36) << "Записи под таким номером не существует" << " |" << std::endl;
+			std::cout << "------------------------------------------" << std::endl;
+			Sleep(1500);
+			return false;
+		}
+	}
+	else {
+		std::cout << "------------------------------------------" << std::endl;
+		std::cout << "| " << std::left << std::setw(36) << "Записи под таким номером не существует" << " |" << std::endl;
+		std::cout << "------------------------------------------" << std::endl;
+		Sleep(1500);
+		return false;
+	}
+}
+

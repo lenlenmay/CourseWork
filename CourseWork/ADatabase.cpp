@@ -2,28 +2,44 @@
 #include "ADatabase.h"
 
 
-void ADatabase::Open(std::string PathToFile)
+bool ADatabase::Open(std::string PathToFile)
 {
 	std::ifstream File(PathToFile);
 	if (!File) {
-		std::cout << "Файл не найден!" << std::endl;
+		std::cout << "----------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(32) << "Файл не найден!" << "|" << std::endl;
+		std::cout << "----------------------------------" << std::endl;
+		Sleep(1500);
+		return false;
 	}
 	else {
-		std::cout << "Файл найден!" << std::endl;
+		std::cout << "----------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(32) << "Файл найден!" << "|" << std::endl;
+		std::cout << "----------------------------------" << std::endl;
+		Sleep(1500);
 		this->PathToFile = PathToFile;
+		return true;
 		//this->bisUTF8 = cslTool.is_utf8(this->PathToFile);
 	}
 }
 
-void ADatabase::Create(std::string PathToFile)
+bool ADatabase::Create(std::string PathToFile)
 {
 	std::ofstream File(PathToFile);
 	if (!File) {
-		std::cout << "Файл не создан!" << std::endl;
+		std::cout << "----------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(32) << "Файл не создан!" << "|" << std::endl;
+		std::cout << "----------------------------------" << std::endl;
+		Sleep(1500);
+		return false;
 	}
 	else {
-		std::cout << "Файл создан!" << std::endl;
+		std::cout << "----------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(32) << "Файл создан!" << "|" << std::endl;
+		std::cout << "----------------------------------" << std::endl;
+		Sleep(1500);
 		this->PathToFile = PathToFile;
+		return true;
 		//this->bisUTF8 = cslTool.is_utf8(this->PathToFile);
 	}
 }
@@ -50,7 +66,8 @@ void ADatabase::ParserFromFile(std::string str)
 		"([a-zA-Zа-яёА-ЯЁ_]{2,20})(;)"
 		"([a-zA-Zа-яёА-ЯЁ_]{2,20})(;)"
 		"([a-zA-Zа-яёА-ЯЁ0-9]{1,6})(;)"
-		"([0-9]{1,4})([}])");
+		"([0-9]{1,4})([}])"
+		"([|])(.)*([|])");
 
 	std::cmatch result;
 	if (std::regex_match(str.c_str(), result, regular)) {
@@ -69,10 +86,51 @@ void ADatabase::DeleteContentFromFile(std::string str)
 std::string ADatabase::FormContentForFile(Data &data)
 {
 	std::string tempStr{};
+	std::string Sessions = FormSessions(data);
 	return std::string("{" + data.GetSurname() + ";" + data.GetName() + ";" + data.GetPatrinymic() + ";" + data.GetGender() + ";"
 		+ data.GetDay() + ";" + data.GetMonth() + ";" + data.GetYear() + ";"
-		+ data.GetYearAddtoUniversity() + ";" + data.GetFaculty() + ";" + data.GetDepartment() + ";" + data.GetGroup() + ";" + data.GetNumberRecordBook() + "}");
+		+ data.GetYearAddtoUniversity() + ";" + data.GetFaculty() + ";" + data.GetDepartment() + ";" + data.GetGroup() + ";" + data.GetNumberRecordBook() + "}"
+		+ "|" + Sessions + "|");
 }
+
+std::string ADatabase::FormSessions(Data& data)
+{
+	std::string resultSessions{};
+	std::string Sessions[9];
+	if (data.Sessions.GetcountSessions() != 0) {
+		for (int i = 0; i < 9; i++) {
+			if (data.Sessions.sessions[i].GetisAdded()) {
+				Sessions[i] += "{" + std::to_string(i) + "|" + FormSubjGrades(data, i) + "}";
+				resultSessions += Sessions[i];
+			}
+			return resultSessions;
+		}
+	}
+	else {
+		resultSessions = "-";
+	}
+	return resultSessions;
+}
+
+std::string ADatabase::FormSubjGrades(Data& data, int index)
+{
+	std::string resultsubjGrades{};
+	std::string subjGrades[9];
+	if (data.Sessions.sessions[index].GetcountSubjects() == 0) {
+		for (int i = 0; i < data.Sessions.sessions[index].GetcountSubjects(); i++)
+		{
+			subjGrades[i] = data.Sessions.sessions[index].subjGrades[i].GetSubject() + ":" + data.Sessions.sessions[index].subjGrades[i].GetGrade() + ";";
+			resultsubjGrades += subjGrades[i];
+		}
+	}
+	else
+	{
+		resultsubjGrades = "-";
+	}
+	return resultsubjGrades;
+}
+
+
 
 void ADatabase::InputInFile(std::string str)
 {

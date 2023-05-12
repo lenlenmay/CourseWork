@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "Sessions.h"
+#include "AList.h"
 
 class Data {
 
@@ -19,11 +21,9 @@ std::string YearAddtoUniversity{},
 			Group{},
 			NumberRecordBook{};
 
-	/*class Sessions {
-		//?
-	};*/
-
 public:
+
+	Sessions Sessions;
 	
 	Data(std::string Surname, std::string Name, std::string Patrinymic, std::string Gender, std::string Day, std::string Month, std::string Year, std::string YearAddtoUniversity, std::string Faculty, std::string Department, std::string Group, std::string NumberRecordBook);
 	Data();
@@ -59,4 +59,6 @@ public:
 	std::string GetDepartment();
 	std::string GetGroup();
 	std::string GetNumberRecordBook();
+
+	~Data();
 };

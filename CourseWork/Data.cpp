@@ -121,6 +121,10 @@ std::string Data::GetNumberRecordBook()
 	return this->NumberRecordBook;
 }
 
+Data::~Data()
+{
+}
+
 Data::Data(std::string Surname, std::string Name, std::string Patrinymic, std::string Gender, std::string Day, std::string Month, std::string Year, std::string YearAddtoUniversity, std::string Faculty, std::string Department, std::string Group, std::string NumberRecordBook)
 {
 	this->Surname = Surname;
@@ -141,4 +145,6 @@ Data::Data(std::string Surname, std::string Name, std::string Patrinymic, std::s
 
 Data::Data()
 {
+
 }
+

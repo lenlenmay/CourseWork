@@ -17,5 +17,8 @@ public:
 	bool isNumberRecordBook(std::string input);
 	bool isNumberOfRecord(std::string input, int count);
 	bool isAgree(std::string input);
+	bool isGrade(std::string input);
+	bool isSubject(std::string input);
+	bool isNumberOfRecordSession(std::string input, int count);
 };
 

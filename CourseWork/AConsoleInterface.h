@@ -6,13 +6,11 @@
 #include "Data.h"
 #include "ACryptoTools.h"
 #include <iomanip>
-#include "AHandlerExceptions.h"
 
 class AConsoleInterface : IConsoleApp {
 public:
 	AConsoleTools cslTools;
 	ACryptoTools cryptoTools;
-	AHandlerExceptions hExceptions;
 	ADatabase db;
 	ValidationInput valIn;
 	AConsoleInterface();
@@ -24,10 +22,38 @@ private:
 	void ViewPage();
 	void ShowRecord(int index);
 	void ShowRecords();
+	std::string IndexAddedSession(int NumberOfRecord);
+
 	void ViewRecordsPage();
+	void ViewSessionsPage();
+	void ChoiceViewSessionPage(int NumberOfRecord);
+	void ViewSessionPage(int NumberOfRecord, int NumberOfSession);
+	void ShowSession(int NumberOfRecord, int NumberOfSession);
+
 	void ViewSortedRecordsPage();
-	void EditModePage();
+
+	void ChoiceEditPage();
+	void EditRecordPage();
+
+	void EditSessionsPage();
+	void ChoiceEditActionSessionPage(int NumberOfRecord);
+
+	void ChoiceEditSessionPage(int NumberOfRecord);
+
+	void EditSessionPage(int NumberOfRecord, int NumberOfSession);
+
+	void AddRecordSessionPage(int NumberOfRecord, int NumberOfSession);
+	void ChangeRecordSessionPage(int NumberOfRecord, int NumberOfSession);
+	void ChoiceChangeRecordSessionPage(int NumberOfRecord, int NumberOfSession, int NumberOfRecordSession);
+	void ChangeSubjectRecordSessionPage(int NumberOfRecord, int NumberOfSession, int NumberOfRecordSession);
+	void ChangeGradeRecordSessionPage(int NumberOfRecord, int NumberOfSession, int NumberOfRecordSession);
+	void DeleteRecordSessionPage(int NumberOfRecord, int NumberOfSession);
+
+	void AddSessionPage(int NumberOfRecord);
+	void DeleteSessionPage(int NumberOfRecord);
+
 	void AddRecordPage();
+
 	void ChangedRecordPage();
 	void ChoiceChangedElement(int choice);
 	void ChangedSNPPage(int index);
@@ -38,9 +64,11 @@ private:
 	void ChangedDepartment(int index);
 	void ChangedGroup(int index);
 	void ChangedNumberRecordBook(int index);
+
 	void AnimationOfLoad();
 	void DeleteRecordPage();
 	bool AgreeActionPage(std::string Input);
 	
+	void IncorrectInput();
 };
 
