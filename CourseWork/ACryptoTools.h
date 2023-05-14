@@ -8,10 +8,10 @@ class ACryptoTools {
 private:
 	DWORD dwIndex = 0;
 	DWORD dwType;
-	DWORD cbName;
+	DWORD cbName ;
 	LPTSTR pszName, x;
 	HCRYPTPROV hProv;
-	HCRYPTKEY hSessionKey;
+	HCRYPTKEY hSessionKey = 0;
 
 public:
 	ACryptoTools();

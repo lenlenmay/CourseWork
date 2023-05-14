@@ -186,7 +186,7 @@ void AConsoleInterface::ViewPage()
 
 	case 3:
 		cslTools.Clear();
-		ViewSortedRecordsPage();
+		ChoiceSessionViewSortedRecordsPage();
 		break;
 
 	case 4:
@@ -474,10 +474,179 @@ void AConsoleInterface::ShowSession(int NumberOfRecord, int NumberOfSession)
 	}
 }
 
-void AConsoleInterface::ViewSortedRecordsPage()
+void AConsoleInterface::ChoiceSessionViewSortedRecordsPage()
 {
+	std::string Input{};
+
+	do {
+		cslTools.Clear();
+
+		std::cout << "_______________________Выбор сессии_________________________" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "Выберете номер сессии" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "|" << std::left << std::setw(58) << "(-back) Назад" << "|" << std::endl;
+		std::cout << "------------------------------------------------------------" << std::endl;
+		std::cout << "Введите номер сессии >>> ";
+		std::cin >> Input;
+
+		if (Input == "-back") {
+			ViewPage();
+		}
+
+	} while (!(cslTools.ValidationOfInput(Input)));
+
+	ViewSortedRecordsPage(std::atoi(Input.c_str()));
+}
+
+void AConsoleInterface::ViewSortedRecordsPage(int NumberOfSession)
+{
+	cslTools.Clear();
+	std::cout << "____________________________________________________________________________База данных_______________________________________________________________________________________" << std::endl;
+	std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+	if (db.DataList.Count() == 0) {
+		std::cout << "| " << std::left << std::setw(170) << "Записи отсутствуют" << " |" << std::endl;
+		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+	}
+	else {
+		std::cout << "| " << std::left << std::setw(15) << "Фамилия" << " | "
+			<< std::left << std::setw(15) << "Имя" << " | "
+			<< std::left << std::setw(15) << "Отчество" << " | "
+			<< std::left << std::setw(7) << "Пол" << " | "
+			<< std::left << std::setw(13) << "Дата рождения" << " | "
+			<< std::left << std::setw(15) << "Год поступления" << " | "
+			<< std::left << std::setw(15) << "Факультет" << " | "
+			<< std::left << std::setw(25) << "Кафедра" << " | "
+			<< std::left << std::setw(6) << "Номер" << " | "
+			<< std::left << std::setw(17) << "Номер" << " |" << std::endl;
+		std::cout << "| " << std::left << std::setw(15) << " " << " | "
+			<< std::left << std::setw(15) << " " << " | "
+			<< std::left << std::setw(15) << " " << " | "
+			<< std::left << std::setw(7) << " " << " | "
+			<< std::left << std::setw(13) << " " << " | "
+			<< std::left << std::setw(15) << "в университет" << " | "
+			<< std::left << std::setw(15) << "(институт)" << " | "
+			<< std::left << std::setw(25) << " " << " | "
+			<< std::left << std::setw(6) << "группы" << " | "
+			<< std::left << std::setw(17) << "в зачётной книжке" << " |" << std::endl;
+		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+
+		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		std::cout << "| " << std::left << std::setw(51) << "Отличники" << " |" << std::endl;
+		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+
+		bool bisEmpty = true;
+
+		for (int i = 0; i < db.DataList.Count(); i++) {
+			Data data = db.DataList[i];
+			if (data.Sessions.sessions[NumberOfSession - 1].GetisAdded() && data.Sessions.sessions[NumberOfSession - 1].GetcountSubjects() != 0) {
+				if (data.Sessions.isGradeOfSession(NumberOfSession - 1) == "5") {
+					ShowData(data);
+					std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+					bisEmpty = false;
+				}
+			}
+			
+		}
+
+		if (bisEmpty == true) {
+			std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+			std::cout << "| " << std::left << std::setw(51) << "Отличников нет" << " |" << std::endl;
+			std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		}
+
+		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		std::cout << "| " << std::left << std::setw(51) << "Хорошисты" << " |" << std::endl;
+		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+
+		bisEmpty = true;
+
+		for (int i = 0; i < db.DataList.Count(); i++) {
+			Data data = db.DataList[i];
+			if (data.Sessions.sessions[NumberOfSession - 1].GetisAdded() && data.Sessions.sessions[NumberOfSession - 1].GetcountSubjects() != 0) {
+				if (data.Sessions.isGradeOfSession(NumberOfSession - 1) == "4") {
+					ShowData(data);
+					std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+					bisEmpty = false;
+				}
+			}
+
+		}
+
+		if (bisEmpty == true) {
+			std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+			std::cout << "| " << std::left << std::setw(51) << "Хорошистов нет" << " |" << std::endl;
+			std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		}
+
+
+		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		std::cout << "| " << std::left << std::setw(51) << "Троечники" << " |" << std::endl;
+		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+
+		bisEmpty = true;
+
+		for (int i = 0; i < db.DataList.Count(); i++) {
+			Data data = db.DataList[i];
+			if (data.Sessions.sessions[NumberOfSession - 1].GetisAdded() && data.Sessions.sessions[NumberOfSession - 1].GetcountSubjects() != 0) {
+				if (data.Sessions.isGradeOfSession(NumberOfSession - 1) == "3") {
+					ShowData(data);
+					std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+					bisEmpty = false;
+				}
+			}
+
+		}
+
+		if (bisEmpty == true) {
+			std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+			std::cout << "| " << std::left << std::setw(51) << "Троечников нет" << " |" << std::endl;
+			std::cout << "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		}
+
+	}
+
+	std::cout << std::endl << "--------------" << std::endl;
+	std::cout << "|" << std::left << std::setw(12) << "(1) Назад" << "|" << std::endl;
+	std::cout << "--------------" << std::endl;
+
+	std::cout << ">>> ";
+	std::string action{};
+	std::cin >> action;
+
+	if (!cslTools.ValidationOfInput(action))
+	{
+		IncorrectInput();
+		ViewSortedRecordsPage(NumberOfSession);
+	}
+
+	switch (std::atoi(action.c_str())) {
+	case 1:
+		cslTools.Clear();
+		ViewPage();
+		break;
+	default:
+		IncorrectInput();
+		ViewSortedRecordsPage(NumberOfSession);
+		break;
+	}
 
 }
+
+void AConsoleInterface::ShowData(Data& data)
+{
+	std::cout << "| " << std::left << std::setw(15) << data.GetSurname() << " | "
+		<< std::left << std::setw(15) << data.GetName() << " | "
+		<< std::left << std::setw(15) << data.GetPatrinymic() << " | "
+		<< std::left << std::setw(7) << data.GetGender() << " | "
+		<< std::left << std::setw(13) << data.GetDay() + "." + data.GetMonth() + "." + data.GetYear() << " | "
+		<< std::left << std::setw(15) << data.GetYearAddtoUniversity() << " | "
+		<< std::left << std::setw(15) << data.GetFaculty() << " | "
+		<< std::left << std::setw(25) << data.GetDepartment() << " | "
+		<< std::left << std::setw(6) << data.GetGroup() << " | "
+		<< std::left << std::setw(17) << data.GetNumberRecordBook() << " |" << std::endl;
+}
+
+
 
 void AConsoleInterface::ChoiceEditPage()
 {
@@ -705,7 +874,7 @@ void AConsoleInterface::EditSessionPage(int NumberOfRecord, int NumberOfSession)
 	cslTools.Clear();
 	ShowSession(NumberOfRecord, NumberOfSession);
 	std::cout << "________Редактирование сессии "<< NumberOfSession <<"________" << std::endl;
-	if (db.DataList[NumberOfRecord - 1].Sessions.sessions[NumberOfSession - 1].GetcountSubjects() == 10) {
+	if (db.DataList[NumberOfRecord - 1].Sessions.sessions[NumberOfSession - 1].GetcountSubjects() >= 9) {
 		std::cout << "|" << std::left << std::setw(37) << "(X) Сессия заполнена" << "|" << std::endl;
 		std::cout << "---------------------------------------" << std::endl;
 	}
@@ -776,7 +945,7 @@ void AConsoleInterface::AddRecordSessionPage(int NumberOfRecord, int NumberOfSes
 {
 	std::string InputSubject{};
 	std::string InputGrade{};
-	Data tempData;
+	Data tempData = db.DataList[NumberOfRecord - 1];
 	do {
 		cslTools.Clear();
 		ShowSession(NumberOfRecord, NumberOfSession);
@@ -844,8 +1013,6 @@ void AConsoleInterface::AddRecordSessionPage(int NumberOfRecord, int NumberOfSes
 	std::cout << "|" << std::left << std::setw(62) << "Запись успешно добавлена. Возврат на страницу редактирования >>>>>>>>>" << "|" << std::endl;
 	std::cout << "------------------------------------------------------------------------" << std::endl;
 	Sleep(500);
-
-	db.ChangedData(tempData, NumberOfRecord);
 
 	db.SaveFile();
 
@@ -1106,11 +1273,14 @@ void AConsoleInterface::AddSessionPage(int NumberOfRecord)
 
 		Sleep(2000);
 
-		db.SaveFile();
+		
 
 		Data tempData = db.DataList[NumberOfRecord - 1];
 		tempData.Sessions.AddSession(std::atoi(Input.c_str()) - 1);
 		db.ChangedData(tempData, NumberOfRecord);
+
+		db.SaveFile();
+
 		ChoiceEditActionSessionPage(NumberOfRecord);
 	}
 	else {
@@ -1157,11 +1327,12 @@ void AConsoleInterface::DeleteSessionPage(int NumberOfRecord)
 
 		Sleep(2000);
 
-		db.SaveFile();
-
 		Data tempData = db.DataList[NumberOfRecord - 1];
 		tempData.Sessions.DeleteSession(std::atoi(Input.c_str()) - 1);
 		db.ChangedData(tempData, NumberOfRecord);
+
+		db.SaveFile();
+
 		ChoiceEditActionSessionPage(NumberOfRecord);
 	}
 	else {

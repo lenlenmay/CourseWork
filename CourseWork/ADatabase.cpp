@@ -49,13 +49,18 @@ void ADatabase::ReadFromFile()
 	std::ifstream File(this->PathToFile);
 	for (std::string line; std::getline(File, line); ) {
 		//line = cslTools.utf8_to_string(line.c_str(), std::locale(".1251"));
-		ParserFromFile(line);
+		ParserFromFile(line); //ParserFromFile(crtTools.DecryptionOfString(line));
 	}
 		
 }
 
 void ADatabase::ParserFromFile(std::string str)
 {
+	if (str == "") {
+		return;
+	}
+	Data tempData;
+	std::string strData = std::string(str, str.find('{'), str.find('}') + 1);
 	std::regex regular(
 		"([{])([a-zA-Zà-ÿ¸À-ß¨]{2,20})(;)"
 		"([a-zA-Zà-ÿ¸À-ß¨]{2,20})(;)"
@@ -66,14 +71,48 @@ void ADatabase::ParserFromFile(std::string str)
 		"([a-zA-Zà-ÿ¸À-ß¨_]{2,20})(;)"
 		"([a-zA-Zà-ÿ¸À-ß¨_]{2,20})(;)"
 		"([a-zA-Zà-ÿ¸À-ß¨0-9]{1,6})(;)"
-		"([0-9]{1,4})([}])"
-		"([|])(.)*([|])");
+		"([0-9]{1,4})([}])");
+
+	std::regex regularforSubjGrades("([a-zA-Zà-ÿ¸À-ß¨_]{2,20})([:])([2-5]{1})");
 
 	std::cmatch result;
-	if (std::regex_match(str.c_str(), result, regular)) {
-		Data tempData = Data(result[2], result[4], result[6], result[8], result[10], result[12], result[14], result[16], result[18], result[20], result[22], result[24]);
+	if (std::regex_match(strData.c_str(), result, regular)) {
+		tempData = Data(result[2], result[4], result[6], result[8], result[10], result[12], result[14], result[16], result[18], result[20], result[22], result[24]);
+
+		std::string strDataSessions(str, str.find('|'), str.rfind('|'));
+		strDataSessions = string(strDataSessions, 1, strDataSessions.length() - 2);
+
+		int index{};
+		int countSessions{};
+		int countSubjGrades{};
+
+		if (strDataSessions != "-") {
+			countSessions = std::count(strDataSessions.begin(), strDataSessions.end(), '{');
+			std::istringstream strSessions(strDataSessions);
+
+
+			for (std::string strDataSession; std::getline(strSessions, strDataSession, '@');) {
+
+				index = std::atoi(std::string(1, strDataSession[0]).c_str());
+				tempData.Sessions.AddSession(index);
+
+				if (strDataSession.at(strDataSession.length() - 1) != '^') {
+					countSubjGrades = std::count(strDataSession.begin(), strDataSession.end(), ':');
+					strDataSession = std::string(strDataSession, 2, strDataSession.length() - 1);
+
+					std::istringstream strSession(strDataSession);
+
+					for (std::string strDataSubjGrades; std::getline(strSession, strDataSubjGrades, ';');) {
+						std::cmatch resultSubjGrades;
+						if (std::regex_match(strDataSubjGrades.c_str(), resultSubjGrades, regularforSubjGrades)) {
+							tempData.Sessions.sessions[index].AddSubjGrades(resultSubjGrades[1], resultSubjGrades[3]);
+						}
+					}
+				}
+			}
+		}
 		DataList.AddEnd(tempData);
-	}	
+	}
 }
 
 void ADatabase::DeleteContentFromFile(std::string str)
@@ -100,11 +139,12 @@ std::string ADatabase::FormSessions(Data& data)
 	if (data.Sessions.GetcountSessions() != 0) {
 		for (int i = 0; i < 9; i++) {
 			if (data.Sessions.sessions[i].GetisAdded()) {
-				Sessions[i] += "{" + std::to_string(i) + "|" + FormSubjGrades(data, i) + "}";
+				Sessions[i] += std::to_string(i) + "#" + FormSubjGrades(data, i) + "@";
 				resultSessions += Sessions[i];
-			}
-			return resultSessions;
+			}	
 		}
+		
+		return std::string(resultSessions, 0, resultSessions.rfind('@'));
 	}
 	else {
 		resultSessions = "-";
@@ -116,16 +156,17 @@ std::string ADatabase::FormSubjGrades(Data& data, int index)
 {
 	std::string resultsubjGrades{};
 	std::string subjGrades[9];
-	if (data.Sessions.sessions[index].GetcountSubjects() == 0) {
+	if (data.Sessions.sessions[index].GetcountSubjects() != 0) {
 		for (int i = 0; i < data.Sessions.sessions[index].GetcountSubjects(); i++)
 		{
 			subjGrades[i] = data.Sessions.sessions[index].subjGrades[i].GetSubject() + ":" + data.Sessions.sessions[index].subjGrades[i].GetGrade() + ";";
 			resultsubjGrades += subjGrades[i];
 		}
+		resultsubjGrades = std::string(resultsubjGrades, 0, resultsubjGrades.rfind(';'));
 	}
 	else
 	{
-		resultsubjGrades = "-";
+		resultsubjGrades = "^";
 	}
 	return resultsubjGrades;
 }
@@ -143,7 +184,7 @@ void ADatabase::SaveFile()
 	DeleteContentFromFile(this->PathToFile);
 	for (int i = 0; i < DataList.Count(); i++) {
 		Data data = DataList[i];
-		InputInFile(FormContentForFile(data));
+		InputInFile(FormContentForFile(data)); //InputInFile(crtTools.EncryptionOfString(FormContentForFile(data)));
 	}
 }
 

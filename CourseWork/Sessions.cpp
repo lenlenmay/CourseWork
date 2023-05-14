@@ -44,6 +44,23 @@ void Sessions::DeleteSession(int index)
 	}
 }
 
+std::string Sessions::isGradeOfSession(int index)
+{
+	for (int i = 0; i < sessions[index].GetcountSubjects(); i++) {
+		if (sessions[index].subjGrades[i].GetGrade() == "3") {
+			return "3";
+		}
+	}
+
+	for (int i = 0; i < sessions[index].GetcountSubjects(); i++) {
+		if (sessions[index].subjGrades[i].GetGrade() == "4") {
+			return "4";
+		}
+	}
+
+	return "5";
+}
+
 Sessions::~Sessions()
 {
 }

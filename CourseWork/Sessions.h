@@ -15,6 +15,7 @@ public:
 	bool isSession(int index);
 	void AddSession(int index);
 	void DeleteSession(int index);
+	std::string isGradeOfSession(int index);
 	~Sessions();
 };
 

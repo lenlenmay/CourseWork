@@ -9,13 +9,17 @@
 #include <locale>
 #include <iomanip>
 #include "AList.h"
+#include <algorithm>
 #include "ValidationInput.h"
+#include <sstream>
+#include "ACryptoTools.h"
 
 class ADatabase {
 
 	std::string PathToFile;
 	//bool bisUTF8;
 	AConsoleTools cslTools;
+	ACryptoTools crtTools;
 public:
 
 	List<Data>DataList;

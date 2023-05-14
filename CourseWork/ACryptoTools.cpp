@@ -30,7 +30,7 @@ std::string ACryptoTools::EncryptionOfString(const std::string& str)
 
 	if (!CryptEncrypt(this->hSessionKey, 0, true, 0, (BYTE*)encryptstr, &count, strlen(encryptstr)))
 	{
-		return std::string("CryptEncrypt");
+		return std::string("");
 	}
 	else
 	{
@@ -45,7 +45,7 @@ std::string ACryptoTools::DecryptionOfString(const std::string& str)
 
 	if (!CryptDecrypt(this->hSessionKey, 0, true, 0, (BYTE*)decryptstr, &count))
 	{
-		return std::string("CryptEncrypt");
+		return std::string("");
 	}
 	else
 	{

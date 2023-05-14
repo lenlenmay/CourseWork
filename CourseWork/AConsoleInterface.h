@@ -30,7 +30,9 @@ private:
 	void ViewSessionPage(int NumberOfRecord, int NumberOfSession);
 	void ShowSession(int NumberOfRecord, int NumberOfSession);
 
-	void ViewSortedRecordsPage();
+	void ChoiceSessionViewSortedRecordsPage();
+	void ViewSortedRecordsPage(int NumberOfSession);
+	void ShowData(Data &data);
 
 	void ChoiceEditPage();
 	void EditRecordPage();
