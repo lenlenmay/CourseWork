@@ -3,8 +3,13 @@
 
 ACryptoTools::ACryptoTools()
 {
+	this->szPassword = "Rusakov is the best";
+	dwLength = (DWORD)this->szPassword.size();
+
+
+
 	if (!CryptAcquireContext(&hProv, NULL, NULL,
-		PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
+		PROV_RSA_FULL, 0))
 	{
 		std::cout << "CryptAcquireContext" << std::endl;
 	}
@@ -13,14 +18,35 @@ ACryptoTools::ACryptoTools()
 		std::cout << "Cryptographic provider initialized" << std::endl;
 	}
 
-	if (!CryptGenKey(hProv, CALG_RC4, CRYPT_EXPORTABLE, &hSessionKey)) {
-		std::cout << "CryptGenKey" << std::endl;
-		return;
-	}
-	else
+	if (CryptCreateHash(
+		hProv,
+		CALG_MD5,
+		0,
+		0,
+		&hHash))
 	{
-	std::cout << "Session key generated" << std::endl;
+		std::cout << "Hash is created" << std::endl;
 	}
+
+	if (CryptHashData(
+		hHash,
+		(BYTE*)this->szPassword.c_str(),
+		dwLength,
+		0))
+	{
+		std::cout << "Password is created" << std::endl;
+	}
+
+	if (CryptDeriveKey(
+		hProv,
+		CALG_RC4,
+		hHash,
+		CRYPT_EXPORTABLE,
+		&hSessionKey))
+	{
+		std::cout << "KeySession is created" << std::endl;
+	}
+
 }
 
 std::string ACryptoTools::EncryptionOfString(const std::string& str)
@@ -55,6 +81,9 @@ std::string ACryptoTools::DecryptionOfString(const std::string& str)
 
 ACryptoTools::~ACryptoTools()
 {
+	CryptDestroyKey(hSessionKey);
+	CryptDestroyHash(hHash);
+	CryptReleaseContext(hProv, 0);
 
 }
 

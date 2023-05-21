@@ -218,8 +218,8 @@ void AConsoleInterface::ShowRecord(int index)
 			<< std::left << std::setw(13) << "Дата рождения" << " | "
 			<< std::left << std::setw(15) << "Год поступления" << " | "
 			<< std::left << std::setw(15) << "Факультет" << " | "
-			<< std::left << std::setw(25) << "Кафедра" << " | "
-			<< std::left << std::setw(6) << "Номер" << " | "
+			<< std::left << std::setw(20) << "Кафедра" << " | "
+			<< std::left << std::setw(11) << "Номер" << " | "
 			<< std::left << std::setw(17) << "Номер" << " |" << std::endl;
 		std::cout << "| " << " " << " | " << std::left << std::setw(15) << " " << " | "
 			<< std::left << std::setw(15) << " " << " | "
@@ -228,8 +228,8 @@ void AConsoleInterface::ShowRecord(int index)
 			<< std::left << std::setw(13) << " " << " | "
 			<< std::left << std::setw(15) << "в университет" << " | "
 			<< std::left << std::setw(15) << "(институт)" << " | "
-			<< std::left << std::setw(25) << " " << " | "
-			<< std::left << std::setw(6) << "группы" << " | "
+			<< std::left << std::setw(20) << " " << " | "
+			<< std::left << std::setw(11) << "группы" << " | "
 			<< std::left << std::setw(17) << "в зачётной книжке" << " |" << std::endl;
 		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 
@@ -241,8 +241,8 @@ void AConsoleInterface::ShowRecord(int index)
 				<< std::left << std::setw(13) << data.GetDay() + "." + data.GetMonth() + "." + data.GetYear() << " | "
 				<< std::left << std::setw(15) << data.GetYearAddtoUniversity() << " | "
 				<< std::left << std::setw(15) << data.GetFaculty() << " | "
-				<< std::left << std::setw(25) << data.GetDepartment() << " | "
-				<< std::left << std::setw(6) << data.GetGroup() << " | "
+				<< std::left << std::setw(20) << data.GetDepartment() << " | "
+				<< std::left << std::setw(11) << data.GetGroup() << " | "
 				<< std::left << std::setw(17) << data.GetNumberRecordBook() << " |" << std::endl;
 			std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 	}
@@ -264,8 +264,8 @@ void AConsoleInterface::ShowRecords()
 			<< std::left << std::setw(13) << "Дата рождения" << " | "
 			<< std::left << std::setw(15) << "Год поступления" << " | "
 			<< std::left << std::setw(15) << "Факультет" << " | "
-			<< std::left << std::setw(25) << "Кафедра" << " | "
-			<< std::left << std::setw(6) << "Номер" << " | "
+			<< std::left << std::setw(20) << "Кафедра" << " | "
+			<< std::left << std::setw(11) << "Номер" << " | "
 			<< std::left << std::setw(17) << "Номер" << " |" << std::endl;
 		std::cout << "| " << " " << " | " << std::left << std::setw(15) << " " << " | "
 			<< std::left << std::setw(15) << " " << " | "
@@ -274,8 +274,8 @@ void AConsoleInterface::ShowRecords()
 			<< std::left << std::setw(13) << " " << " | "
 			<< std::left << std::setw(15) << "в университет" << " | "
 			<< std::left << std::setw(15) << "(институт)" << " | "
-			<< std::left << std::setw(25) << " " << " | "
-			<< std::left << std::setw(6) << "группы" << " | "
+			<< std::left << std::setw(20) << " " << " | "
+			<< std::left << std::setw(11) << "группы" << " | "
 			<< std::left << std::setw(17) << "в зачётной книжке" << " |" << std::endl;
 		std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 
@@ -288,8 +288,8 @@ void AConsoleInterface::ShowRecords()
 				<< std::left << std::setw(13) << data.GetDay() + "." + data.GetMonth() + "." + data.GetYear() << " | "
 				<< std::left << std::setw(15) << data.GetYearAddtoUniversity() << " | "
 				<< std::left << std::setw(15) << data.GetFaculty() << " | "
-				<< std::left << std::setw(25) << data.GetDepartment() << " | "
-				<< std::left << std::setw(6) << data.GetGroup() << " | "
+				<< std::left << std::setw(20) << data.GetDepartment() << " | "
+				<< std::left << std::setw(11) << data.GetGroup() << " | "
 				<< std::left << std::setw(17) << data.GetNumberRecordBook() << " |" << std::endl;
 			std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 		}

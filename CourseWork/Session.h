@@ -24,7 +24,7 @@ class Session
 	int index{};
 	int countSubjects{};
 	bool bisAdded = false;
-	
+
 public:
 
 	SubjGrades subjGrades[10];

@@ -142,7 +142,6 @@
     <ClCompile Include="AConsoleApp.cpp" />
     <ClCompile Include="AConsoleInterface.cpp" />
     <ClCompile Include="ACryptoTools.cpp" />
-    <ClCompile Include="AHandlerExceptions.cpp" />
     <ClCompile Include="CourseWork.cpp" />
     <ClCompile Include="AConsoleTools.cpp" />
     <ClCompile Include="AList.cpp" />
@@ -156,7 +155,6 @@
     <ClInclude Include="AConsoleApp.h" />
     <ClInclude Include="AConsoleInterface.h" />
     <ClInclude Include="ACryptoTools.h" />
-    <ClInclude Include="AHandlerExceptions.h" />
     <ClInclude Include="AConsoleTools.h" />
     <ClInclude Include="ADatabase.h" />
     <ClInclude Include="IConsoleApp.h" />
@@ -165,6 +163,9 @@
     <ClInclude Include="Session.h" />
     <ClInclude Include="Sessions.h" />
     <ClInclude Include="ValidationInput.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CouseWork.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

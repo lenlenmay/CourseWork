@@ -4,14 +4,15 @@
 #include <wincrypt.h> 
 #include <stdio.h> 
 
+
 class ACryptoTools {
 private:
-	DWORD dwIndex = 0;
-	DWORD dwType;
-	DWORD cbName ;
-	LPTSTR pszName, x;
+	DWORD dwLength;
+	HCRYPTHASH hHash;
 	HCRYPTPROV hProv;
-	HCRYPTKEY hSessionKey = 0;
+	HCRYPTKEY hSessionKey;
+	std::string szPassword;
+	
 
 public:
 	ACryptoTools();

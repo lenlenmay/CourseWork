@@ -15,7 +15,7 @@ bool AConsoleTools::ValidationOfInput(std::string str)
 		return false;	
 }
 
-std::string AConsoleTools::utf8_to_string(const char* utf8str, const std::locale& loc)
+/*std::string AConsoleTools::utf8_to_string(const char* utf8str, const std::locale& loc)
 {
 	// UTF-8 to wstring
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> wconv;
@@ -33,7 +33,7 @@ std::string AConsoleTools::ws2s(const std::wstring& wstr)
 	std::wstring_convert<convert_typeX, wchar_t> converterX;
 	return converterX.to_bytes(wstr);
 	return std::string();
-}
+}*/
 
 /*bool AConsoleTools::is_utf8(std::string PathToFile)
 {

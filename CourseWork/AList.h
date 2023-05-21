@@ -3,47 +3,42 @@
 #include <iostream>
 using namespace std;
 
-// Структура, описывающая один элемент (узел)
+
 template <class T>
 struct Element
 {
-	// Составляющие структуры Element<T>
-	T data; // данные
-	Element<T>* next; // адрес следующего элемента в списке
-	Element<T>* prev; // адрес предыдущего элемента в списке
+
+	T data;
+	Element<T>* next;
+	Element<T>* prev;
 };
 
-// Класc, реализующий двусвязный список
+
 template <class T>
 class List
 {
 private:
-	Element<T>* begin; // указатель на первый элемент списка
-	Element<T>* end; // указатель на последний элемент списка
-	int count; // количество элементов в списке
+	Element<T>* begin;
+	Element<T>* end; 
+	int count;
 	
-	// Метод, возвращающий элемент в заданной позиции,
-	//считается что позиция корректна.
+	
+
 	Element<T>* Move(int index)
 	{
-		// 1. Установить указатель на начало списка
 		Element<T>* t = begin;
 
-		// 2. Перемотать в позицию index
 		for (int i = 0; i < index; i++)
 			t = t->next;
 
-		// 3. Вернуть указатель
 		return t;
 	};
 
-	// Метод, копирующий список
+
 	void Copy(const List<T>& obj)
 	{
-		// 1. Очистить список (освободить память)
 		Clear();
 
-		// 2. Цикл копирования this <= obj
 		Element<T>* t = obj.begin;
 
 		while (t != nullptr)
@@ -53,159 +48,123 @@ private:
 		}
 	};
 
-	// Метод, проверяющий корректность позиии (индекса) в списке
+
 	bool CorrectIndex(int index)
 	{
 		return (index >= 0) && (index < count);
 	};
 
 public:
-	// Конструктор
+
 	List()
 	{
-		// Создать пустой список
 		begin = end = nullptr;
 		count = 0;
 	};
 
-	// Конструктор копирования
+
 	List(const List& obj)
 	{
-		// Сделать копию из списка
 		Copy(obj);
 	};
 
-	// Оператор копирования
 	List<T>& operator=(const List& obj)
 	{
 		Copy(obj);
 		return *this;
 	};
 
-	// Деструктор
 	~List()
 	{
-		Clear(); // очистить список
+		Clear(); 
 	};
 
-	// ---------- Методы доступа к отдельным элементам списка --------
-	// Получить элемент списка по индексу
 	T GetElement(int index)
 	{
-		// Проверка, корректен ли индекс,
-	// если индекс не корректен, сгенерировать исключение
 		if (!CorrectIndex(index))
 			throw out_of_range("Incorrect index.");
 
-		// Если индекс корректен, то вернуть элемент
 		Element<T>* t = Move(index);
 		return t->data;
 	};
 
-	// Изменить значение элемента в заданной позиции
 	void SetElement(T _data, int index)
 	{
-		// Проверка, корректна ли позиция
 		if (!CorrectIndex(index))
 			return;
 
-		// Получить элемент по позиции и изменить его значение
 		Element<T>* t = Move(index);
 		t->data = _data;
 	};
 
-	// ---------- Методы изменения размера списка ------------
-	// Добавить элемент в конец списка
 	void AddEnd(T _data)
 	{
 		try
 		{
-			// 1. Создать новый элемент с данными _data
 			Element<T>* t = new Element<T>;
-			t->next = nullptr; // следующего элемента нет
-			t->prev = end; // установить предыдущий элемент
-			t->data = _data; // записать данные
+			t->next = nullptr; 
+			t->prev = end; 
+			t->data = _data;
 
-			// 2. Заполнить поле next пока что последнего элемента
 			if (end != nullptr)
 				end->next = t;
 
-			// 3. Проверка, есть ли в списке элементы
 			if (count == 0)
 			{
-				// если элементов нет,
-				// то это одновременно и начало и конец списка
 				begin = end = t;
 			}
 			else
 			{
-				// если элементы в списке есть, то это конец списка
 				end = t;
 			}
 
-			// 3. Увеличить общее количество элементов
 			count++;
 		}
 		catch (bad_alloc e)
 		{
-			// Если память не выделена, то вывести системное сообщение
 			cout << e.what() << endl;
 		}
 	};
 
-	// Добавить элемент в начало списка
 	void AddBegin(T _data)
 	{
 		try
 		{
-			// 1. Создать новый элемент (новую ячейку памяти)
-			// и заполнить его данными
 			Element<T>* t = new Element<T>;
-			t->data = _data; // данные
-			t->prev = nullptr; // предыдущего элемента нет
+			t->data = _data; 
+			t->prev = nullptr; 
 
-			// следующий элемент указывает на предыдущий первый
 			t->next = begin;
 
-			// 2. Есть ли элементы в списке?
 			if (count > 0)
 			{
-				// если есть, то перенаправить предыдущее начало списка
 				begin->prev = t;
 				begin = t;
 			}
 			else
 			{
-				// если элементов нет, то начало и конец есть тем самым элементом
 				begin = end = t;
 			}
 
-			// 3. Увеличить общее количество элементов
 			count++;
 		}
 		catch (bad_alloc e)
 		{
-			// если память не выделена, то обработать ошибку
 			cout << e.what() << endl;
 		}
 	};
 
-	// Вставка элемента в заданную позицию списка
 	void Insert(T _data, int index)
 	{
-		// 1. Проверка, корректна ли позиция
 		if (!CorrectIndex(index))
 			return;
 
-		// 2. Проверка, вставка ли в конец списка (по указателю end)
 		if (index == count)
 		{
-			// Добавить данные по указателю end
 			AddEnd(_data);
 			return;
 		}
 
-		// 3. Проверка, вставка ли в начало списка (перед begin)
 		if (index == 0)
 		{
 			AddBegin(_data);
@@ -214,13 +173,10 @@ public:
 
 		try
 		{
-			// 4. Получить элемент перед позицией вставки
 			Element<T>* itemPrev = Move(index - 1);
 
-			// 5. Получить элемент в позиции вставки
 			Element<T>* item = Move(index);
 
-			// 6. Создать новый элемент и вставить его в список
 			Element<T>* t = new Element<T>;
 			t->data = _data;
 			t->next = item;
@@ -228,84 +184,63 @@ public:
 			itemPrev->next = t;
 			item->prev = t;
 
-			// 7. Увеличить количество элементов
 			count++;
 		}
 		catch (bad_alloc e)
 		{
-			// Если память не выделена, то вывести системное сообщение
 			cout << e.what() << endl;
 		}
 	};
 
-	// Удалить элемент в заданной позиции,
-	// позиция нумеруется с 0
 	void Del(int index)
 	{
-		// 1. Проверка, есть ли элементы в списке
 		if (count == 0) return;
 
-		// 2. Игнор, если позиция указана неправильно
 		if (!CorrectIndex(index))
 			return;
 
-		// 3. Перейти к удаляемому элементу
 		Element<T>* item = Move(index);
 
-		// 4. Получить предыдущий элемент
 		Element<T>* itemPrev = item->prev;
 
-		// 5. Получить следующий элемент
 		Element<T>* itemNext = item->next;
 
-		// 6. Проверка, удаляется ли не первый элемент списка
 		if ((count > 1) && (itemPrev != nullptr))
-			itemPrev->next = itemNext; // обойти элемент item
+			itemPrev->next = itemNext; 
 
-		  // 7. Проверка, удаляется ли не последний элемент списка
 		if ((itemNext != nullptr) && (count > 1))
 			itemNext->prev = itemPrev;
 
-		// 8. Если удаляется первый элемент
 		if (index == 0)
 			begin = itemNext;
 
-		// 9. Если удаляется последний элемент
 		if (index == count - 1)
 			end = itemPrev;
 
-		// 10. Удалить элемент item
 		delete item;
 
-		// 11. Уменьшить общее количество элементов
 		count--;
 	};
 
 
 	void UpdateData(T _data, int index)
 	{
-		//Del(index);
 		Insert(_data, index);
 		Del(index + 1);
 	};
 
-	// Очистка списка
 	void Clear()
 	{
-		// Нужно count раз удалить первый элемент списка
-		int n = count; // сделать копию из count - важно!
+		int n = count; 
 		for (int i = 0; i < n; i++)
 			Del(0);
 	};
 
-	// Реверсирование списка
 	void Reverse()
 	{
 		List<T> L;
 		Element<T>* t = begin;
 
-		// цикл формирования списка,
-		// элемент добавляется в начало списка
 		while (t != nullptr)
 		{
 			L.AddBegin(t->data);
@@ -314,7 +249,6 @@ public:
 		*this = L;
 	};
 
-	// Вывод списка
 	void Print(string msg)
 	{
 		cout << msg << " => ";
@@ -328,28 +262,21 @@ public:
 		cout << endl;
 	};
 
-	// Получить количество элементов списка
 	int Count()
 	{
 		return count;
 	};
 
-	// ------------------------------------------
-	// Перегрузка операторов
-	// Операция + - конкатенация списков
 	List<T>& operator+(const List<T>& obj)
 	{
-		// 1. Получить доступ к списку obj
 		Element<T>* t = obj.begin;
 
-		// 2. Добавить к временному списку элементы t
 		while (t != nullptr)
 		{
 			AddEnd(t->data);
 			t = t->next;
 		}
 
-		// 3. Вернуть объединенный список
 		return *this;
 	};
 
@@ -358,20 +285,16 @@ public:
 		return GetElement(index);
 	};
 
-	// Операция сравнения списков на равенство
 	bool operator==(const List& obj)
 	{
-		// 1. Сначала сравнить размеры списков
 		if (count != obj.count)
 			return false;
 
-		// 2. Если размеры одинаковы, то сравнить поэлементно
 		Element<T>* t1 = begin;
 		Element<T>* t2 = obj.begin;
 
 		while (t1 != nullptr)
 		{
-			// Как только найдено хотя бы одно несовпадение, то выход с кодом false
 			if (t1->data != t2->data)
 				return false;
 

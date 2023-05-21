@@ -27,9 +27,6 @@
     <ClCompile Include="AConsoleInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AHandlerExceptions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ACryptoTools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -45,10 +42,10 @@
     <ClCompile Include="ValidationInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Session.cpp">
+    <ClCompile Include="Sessions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Sessions.cpp">
+    <ClCompile Include="Session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,9 +60,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AConsoleApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AHandlerExceptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ACryptoTools.h">
@@ -83,11 +77,14 @@
     <ClInclude Include="ValidationInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Session.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sessions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CouseWork.cd" />
   </ItemGroup>
 </Project>

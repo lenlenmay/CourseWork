@@ -96,13 +96,13 @@ void Session::ChangedSubjGrades(SubjGrades _subjGrades, int index)
 
 		subjGrades[index] = _subjGrades;
 	}
-	
+
 }
 
 void Session::DeleteSubjGrades(int index)
 {
 	if (0 <= index && index < countSubjects) {
-		
+
 		subjGrades[index].Clear();
 		for (int i = index; i < countSubjects - 1; i++)
 		{
@@ -112,8 +112,3 @@ void Session::DeleteSubjGrades(int index)
 		countSubjects--;
 	}
 }
-
-
-
-
-

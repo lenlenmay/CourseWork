@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AConsoleApp">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="AConsoleApp" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>AConsoleApp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AConsoleInterface">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="AConsoleInterface" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IQBBAFCAQDA2AoFAAAAECCBAACIoCFCIIpF2CABEEQA=</HashCode>
+      <FileName>AConsoleInterface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AConsoleTools">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBAAA=</HashCode>
+      <FileName>AConsoleTools.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ACryptoTools">
+    <Position X="2.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQFAAAQAAAAAAAAAACCgAAAAAAAAAAAQgAAAA=</HashCode>
+      <FileName>ACryptoTools.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ADatabase">
+    <Position X="6.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACIAAAAAAIQEAAYAAQEAAACAAAEABhAAAAAAAIIA=</HashCode>
+      <FileName>ADatabase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Data">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQgAEAAJCAAQITACCAAQAQmFAIAQBAEBABCQBAAhEE=</HashCode>
+      <FileName>Data.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IConsoleApp">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>IConsoleApp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="List&lt;T&gt;">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEACEIAAAICAhAAAAQQQCoEAAAAAAAAiAABMAAI=</HashCode>
+      <FileName>AList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sessions">
+    <Position X="12.75" Y="3.75" Width="1.5" />
+    <Members>
+      <Method Name="~Sessions" Hidden="true" />
+      <Method Name="Sessions" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAIAAAgCAAAARoAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Sessions.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SubjGrades">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="~SubjGrades" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAgAAgAAAAEAAAAIAAAAAAAAAACAAAAAAAAAFAEAA=</HashCode>
+      <FileName>Session.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ValidationInput">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIBAAAAACAAAAAABEAAAQAAAAAIAAIQAAgAAAYAAAA=</HashCode>
+      <FileName>ValidationInput.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Session">
+    <Position X="14.75" Y="4" Width="1.5" />
+    <Members>
+      <Method Name="Session" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAQABAACIQQQBAEABAAAAADAAABAAAAAAAABAAA=</HashCode>
+      <FileName>Session.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Element&lt;T&gt;">
+    <Position X="10.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQAAIAAAA=</HashCode>
+      <FileName>AList.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

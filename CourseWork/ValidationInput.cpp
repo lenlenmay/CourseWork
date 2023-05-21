@@ -56,19 +56,19 @@ bool ValidationInput::isYAndYUniversity(std::string input)
 
 bool ValidationInput::isFDepartment(std::string input)
 {
-	std::regex regular("[a-zA-Zà-ÿ¸À-ß¨_]{2,20}");
+	std::regex regular("[a-zA-Zà-ÿ¸À-ß¨0-9\-]{2,20}");
 	return std::regex_match(input.c_str(), regular);
 }
 
 bool ValidationInput::isGroup(std::string input)
 {
-	std::regex regular("[a-zA-Zà-ÿ¸À-ß¨0-9]{1,6}");
+	std::regex regular("[a-zA-Zà-ÿ¸À-ß¨0-9\-]{1,10}");
 	return std::regex_match(input.c_str(), regular);
 }
 
 bool ValidationInput::isNumberRecordBook(std::string input)
 {
-	std::regex regular("[0-9]{1,4}");
+	std::regex regular("[a-zA-Zà-ÿ¸À-ß¨0-9]{1,7}");
 	return std::regex_match(input.c_str(), regular);
 }
 

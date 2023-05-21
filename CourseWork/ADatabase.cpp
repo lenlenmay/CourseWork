@@ -19,7 +19,6 @@ bool ADatabase::Open(std::string PathToFile)
 		Sleep(1500);
 		this->PathToFile = PathToFile;
 		return true;
-		//this->bisUTF8 = cslTool.is_utf8(this->PathToFile);
 	}
 }
 
@@ -40,7 +39,6 @@ bool ADatabase::Create(std::string PathToFile)
 		Sleep(1500);
 		this->PathToFile = PathToFile;
 		return true;
-		//this->bisUTF8 = cslTool.is_utf8(this->PathToFile);
 	}
 }
 
@@ -48,17 +46,15 @@ void ADatabase::ReadFromFile()
 {
 	std::ifstream File(this->PathToFile);
 	for (std::string line; std::getline(File, line); ) {
-		//line = cslTools.utf8_to_string(line.c_str(), std::locale(".1251"));
-		ParserFromFile(line); //ParserFromFile(crtTools.DecryptionOfString(line));
+
+		ParserFromFile(line); 
+		//ParserFromFile(crtTools.DecryptionOfString(line));
 	}
 		
 }
 
 void ADatabase::ParserFromFile(std::string str)
 {
-	if (str == "") {
-		return;
-	}
 	Data tempData;
 	std::string strData = std::string(str, str.find('{'), str.find('}') + 1);
 	std::regex regular(
@@ -69,9 +65,9 @@ void ADatabase::ParserFromFile(std::string str)
 		"([0-9]{1,2})(;)([0-9]{1,2})(;)([0-9]{4,4})(;)"
 		"([0-9]{4})(;)"
 		"([a-zA-Zà-ÿ¸À-ß¨_]{2,20})(;)"
-		"([a-zA-Zà-ÿ¸À-ß¨_]{2,20})(;)"
-		"([a-zA-Zà-ÿ¸À-ß¨0-9]{1,6})(;)"
-		"([0-9]{1,4})([}])");
+		"([a-zA-Zà-ÿ¸À-ß¨0-9\-]{2,20})(;)"
+		"([a-zA-Zà-ÿ¸À-ß¨0-9\-]{1,10})(;)"
+		"([a-zA-Zà-ÿ¸À-ß¨0-9]{1,7})([}])");
 
 	std::regex regularforSubjGrades("([a-zA-Zà-ÿ¸À-ß¨_]{2,20})([:])([2-5]{1})");
 
@@ -184,7 +180,8 @@ void ADatabase::SaveFile()
 	DeleteContentFromFile(this->PathToFile);
 	for (int i = 0; i < DataList.Count(); i++) {
 		Data data = DataList[i];
-		InputInFile(FormContentForFile(data)); //InputInFile(crtTools.EncryptionOfString(FormContentForFile(data)));
+		InputInFile(FormContentForFile(data)); 
+		//InputInFile(crtTools.EncryptionOfString(FormContentForFile(data)));
 	}
 }
 
